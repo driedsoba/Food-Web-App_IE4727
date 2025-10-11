@@ -31,7 +31,7 @@
   margin: 0;
   font-size: 1.8rem;
   font-weight: bold;
-  color: #cf5010;
+  color: #ff6b1a;
 }
 
 .cart-section {
@@ -57,14 +57,14 @@
 }
 
 .navigation a:hover {
-  color: #cf5010;
+  color: #ff6b1a;
 }
 
 .cart-button {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  background-color: #cf5010;
+  background-color: #ff6b1a;
   color: white;
   border: none;
   padding: 0.75rem 1.5rem;
