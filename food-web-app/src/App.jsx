@@ -2,7 +2,8 @@ import './App.css'
 import Header from './components/header/Header'
 import Footer from './components/footer/Footer'
 import HomePage from './pages/HomePage'
-import Menu from './pages/Menu'
+import Menu from './components/menu/Menu'
+import Catering from './components/catering/Catering'
 import { Routes, Route, Navigate } from 'react-router-dom'
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/menu" element={<Menu />} />
+          <Route path="/catering" element={<Catering />} />
           {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
         </Routes>
       </main>

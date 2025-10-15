@@ -1,11 +1,11 @@
-import PopularDishes from '../components/home/PopularDishes'
+import Menu from '../components/menu/Menu'
 
-const Menu = () => {
+const MenuPage = () => {
   return (
     <>
-      <PopularDishes />
+      <Menu />
     </>
   )
 }
 
-export default Menu
+export default MenuPage

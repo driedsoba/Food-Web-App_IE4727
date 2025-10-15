@@ -1,3 +1,5 @@
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import './home.css'
 
 const stats = [
@@ -7,6 +9,16 @@ const stats = [
 ]
 
 const Hero = () => {
+  const navigate = useNavigate()
+  const [searchQuery, setSearchQuery] = useState('')
+
+  const handleSearch = (e) => {
+    e.preventDefault()
+    if (searchQuery.trim()) {
+      navigate(`/menu?search=${encodeURIComponent(searchQuery.trim())}`)
+    }
+  }
+
   return (
     <section className="home-hero" id="home">
       <div className="home-hero__content">
@@ -19,11 +31,17 @@ const Hero = () => {
           and satisfying!
         </p>
         {/* Simple search bar. Replace alert/submit logic later if needed. */}
-        <form className="home-search" role="search">
+        <form className="home-search" role="search" onSubmit={handleSearch}>
           <span className="home-search__icon" aria-hidden="true">
             🔍
           </span>
-          <input id="hero-search" type="search" placeholder="Search for food" />
+          <input
+            id="hero-search"
+            type="search"
+            placeholder="Search for food"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
           <button type="submit">Find Food</button>
         </form>
         <dl className="home-hero__stats">

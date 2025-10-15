@@ -4,6 +4,11 @@
   padding: 1rem 0;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   width: 100%;
+  /* Keep header visible while scrolling */
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  backdrop-filter: blur(4px); /* subtle blur for layered content */
 }
 
 .header-container {
@@ -76,9 +81,9 @@
 }
 
 .cart-button:hover {
-  background-color: #b8450e;
+  background-color: #e55a0e;
   transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(207, 80, 16, 0.3);
+  box-shadow: 0 4px 8px rgba(255, 107, 26, 0.3);
 }
 
 .cart-icon {
@@ -94,20 +99,20 @@
     flex-direction: column;
     gap: 1rem;
   }
-  
+
   .navigation {
     order: 2;
   }
-  
+
   .logo {
     order: 1;
   }
-  
+
   .cart-section {
     order: 3;
     justify-content: center;
   }
-  
+
   .navigation ul {
     gap: 1rem;
     justify-content: center;
