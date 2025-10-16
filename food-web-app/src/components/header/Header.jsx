@@ -14,7 +14,7 @@ const Header = () => {
             <li><Link to="/">Home</Link></li>
             <li><Link to="/menu">Menu</Link></li>
             <li><Link to="/catering">Catering</Link></li>
-            <li><a href="#feedback">Feedback</a></li>
+            <li><Link to="/feedback">Feedback</Link></li>
           </ul>
         </nav>
         <div className="cart-section">
