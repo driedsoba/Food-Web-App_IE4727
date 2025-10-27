@@ -1,0 +1,207 @@
+import React, { useState } from 'react';
+import './Feedback.css';
+
+const Feedback = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    rating: 0,
+    orderNumber: '',
+    feedback: ''
+  });
+
+  const [feedbacks, setFeedbacks] = useState([
+    {
+      id: 1,
+      name: 'Sarah Johnson',
+      rating: 5,
+      feedback: 'Absolutely amazing experience! The food was incredible, hot, and fresh. Will definitely order again!',
+      date: '2 days ago'
+    },
+    {
+      id: 2,
+      name: 'Michael Chen',
+      rating: 4,
+      feedback: 'Great food and fast delivery. The portions were generous and everything was delicious.',
+      date: '5 days ago'
+    },
+    {
+      id: 3,
+      name: 'Emma Williams',
+      rating: 5,
+      feedback: 'Best restaurant in town! The quality is always consistent and the staff is so friendly.',
+      date: '1 week ago'
+    }
+  ]);
+
+  const [hoveredRating, setHoveredRating] = useState(0);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value
+    });
+  };
+
+  const handleRatingClick = (rating) => {
+    setFormData({
+      ...formData,
+      rating
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    // TODO: Replace with actual PHP API call
+    // Example: await fetch('/api/feedback.php', { method: 'POST', body: JSON.stringify(formData) })
+    
+    // For now, add to local state
+    const newFeedback = {
+      id: feedbacks.length + 1,
+      name: formData.name,
+      rating: formData.rating,
+      feedback: formData.feedback,
+      date: 'Just now'
+    };
+
+    setFeedbacks([newFeedback, ...feedbacks]);
+
+    // Reset form
+    setFormData({
+      name: '',
+      email: '',
+      rating: 0,
+      orderNumber: '',
+      feedback: ''
+    });
+
+    alert('Thank you for your feedback!');
+  };
+
+  const renderStars = (rating, isInteractive = false) => {
+    return [...Array(5)].map((_, index) => {
+      const starRating = index + 1;
+      const isFilled = isInteractive 
+        ? starRating <= (hoveredRating || formData.rating)
+        : starRating <= rating;
+
+      return (
+        <span
+          key={index}
+          className={`star ${isFilled ? 'filled' : ''} ${isInteractive ? 'interactive' : ''}`}
+          onClick={isInteractive ? () => handleRatingClick(starRating) : undefined}
+          onMouseEnter={isInteractive ? () => setHoveredRating(starRating) : undefined}
+          onMouseLeave={isInteractive ? () => setHoveredRating(0) : undefined}
+        >
+          ★
+        </span>
+      );
+    });
+  };
+
+  return (
+    <div className="feedback-page">
+      {/* Feedback Form Section */}
+      <section className="feedback-form-section">
+        <div className="feedback-icon">💬</div>
+        <h1>We Value Your Feedback</h1>
+        <p className="feedback-subtitle">
+          Your opinion helps us improve our service. Share your experience with Lecker Haus and help us serve you better.
+        </p>
+
+        <div className="feedback-form-container">
+          <h2>Share Your Experience</h2>
+          <form onSubmit={handleSubmit} className="feedback-form">
+            <div className="form-group">
+              <label htmlFor="name">Your Name *</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={formData.name}
+                onChange={handleInputChange}
+                placeholder="John Doe"
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="email">Email Address *</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                placeholder="john@example.com"
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Rate Your Experience *</label>
+              <div className="rating-stars">
+                {renderStars(formData.rating, true)}
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="orderNumber">Order Number (Optional)</label>
+              <input
+                type="text"
+                id="orderNumber"
+                name="orderNumber"
+                value={formData.orderNumber}
+                onChange={handleInputChange}
+                placeholder="#12345"
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="feedback">Your Feedback *</label>
+              <textarea
+                id="feedback"
+                name="feedback"
+                value={formData.feedback}
+                onChange={handleInputChange}
+                placeholder="Tell us about your experience with our service, food quality, delivery time, etc..."
+                rows="5"
+                required
+              />
+            </div>
+
+            <button type="submit" className="submit-button">
+              <span className="submit-icon">👍</span>
+              Submit Feedback
+            </button>
+          </form>
+        </div>
+      </section>
+
+      {/* Customer Feedback Display Section */}
+      <section className="feedback-display-section">
+        <h2>What Our Customers Say</h2>
+        <div className="feedbacks-list">
+          {feedbacks.map((feedback) => (
+            <div key={feedback.id} className="feedback-card">
+              <div className="feedback-header">
+                <div className="feedback-author">
+                  <h3>{feedback.name}</h3>
+                  <div className="feedback-rating">
+                    {renderStars(feedback.rating)}
+                  </div>
+                </div>
+                <span className="feedback-date">{feedback.date}</span>
+              </div>
+              <p className="feedback-text">{feedback.feedback}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+    </div>
+  );
+};
+
+export default Feedback;
