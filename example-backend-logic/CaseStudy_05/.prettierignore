@@ -1,0 +1,6 @@
+# Don't format these files
+*.sql
+*.md
+database/**
+*.min.js
+*.min.css

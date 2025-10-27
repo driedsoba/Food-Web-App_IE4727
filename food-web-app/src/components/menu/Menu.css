@@ -37,7 +37,7 @@
 
 .search-input {
   width: 100%;
-  padding: 0.75rem 2.5rem 0.75rem 1rem;
+  padding: 0.75rem 2.5rem 0.75rem 1.25rem;
   border: 2px solid #e0e0e0;
   border-radius: 8px;
   font-size: 1rem;
@@ -262,6 +262,43 @@
 }
 
 .reset-button:hover {
+  background-color: #e55a0e;
+}
+
+/* Loading and error states */
+.loading-state,
+.error-state {
+  text-align: center;
+  padding: 3rem;
+  grid-column: 1 / -1;
+}
+
+.loading-state p {
+  font-size: 1.25rem;
+  color: #666;
+}
+
+.error-state {
+  color: #d32f2f;
+}
+
+.error-state p {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+.retry-button {
+  padding: 0.75rem 2rem;
+  background-color: #ff6b1a;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.retry-button:hover {
   background-color: #e55a0e;
 }
 

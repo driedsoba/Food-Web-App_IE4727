@@ -1,0 +1,298 @@
+/* Global page background with subtle diagonal stripes */
+body {
+  font-family: Verdana, Arial, sans-serif;
+  background-color: #efe9b2;
+  padding-top: 20px;
+  /* Diagonal stripe pattern: 2px stripe + 6px gap at 135deg */
+  background-image: repeating-linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.05) 0,
+    rgba(0, 0, 0, 0.05) 2px,
+    rgba(0, 0, 0, 0) 2px,
+    rgba(0, 0, 0, 0) 8px
+  );
+}
+
+#wrapper {
+  background-color: #e3d1b3;
+  width: 80%;
+  margin: auto;
+  min-width: 850px;
+  /* Bottom-right biased shadows */
+  box-shadow:
+    /* crisp layer */
+    6px 6px 0 rgba(0, 0, 0, 0.08),
+    /* soft blurred layer */ 16px 18px 28px 6px rgba(0, 0, 0, 0.26);
+}
+
+#leftcolumn {
+  float: left;
+  width: 150px;
+  padding: 10px 0px;
+}
+
+#rightcolumn {
+  margin-left: 155px;
+  background-color: #f5f5dc;
+  color: #000000;
+}
+
+#rightcolumn ul {
+  list-style-image: url(../assets/croissant.png);
+  list-style-position: inside;
+  /* align marker with paragraph left edge */
+  padding-left: 0;
+  margin-left: 0;
+}
+
+header {
+  background-color: #d1b38e;
+  color: #966437;
+  font-size: 150%;
+  text-align: center;
+  text-shadow: #000000;
+  font-family: 'Euclid Circular A';
+  padding: 10px 10px 10px 155px;
+}
+
+h2 {
+  color: #300002;
+  font-family: 'Arial';
+}
+
+.content {
+  padding: 10px 20px 20px 20px;
+  /* match left column top padding for alignment */
+  overflow: auto;
+  /* contain the floated image */
+}
+
+/* Image sits to the left of the features list */
+.feature-image {
+  float: left;
+  margin-right: 40px;
+  margin-bottom: 40px;
+  margin-left: 40px;
+}
+
+footer {
+  font-size: 70%;
+  text-align: center;
+  clear: both;
+  padding: 10px;
+  background-color: #d1b38e;
+}
+
+/* Center-align left column nav text */
+#leftcolumn nav ul {
+  padding-left: 0;
+  text-align: center;
+}
+
+#leftcolumn nav a {
+  display: block;
+  /* full-click target; inherits text-align from ul */
+}
+
+nav ul {
+  list-style-type: none;
+}
+
+nav a {
+  text-decoration: none;
+  font-weight: bold;
+  color: #7e6249;
+}
+
+nav a:hover {
+  color: #fff;
+  background-color: #a67c52;
+}
+
+nav a:active {
+  color: #fff;
+  background-color: #a67c52;
+}
+
+/* Faded visited links and current page state */
+nav a:visited {
+  color: #a58d78;
+  /* slightly lighter to indicate visited */
+}
+
+nav a.current {
+  color: #a58d78;
+  /* faded current */
+  pointer-events: none;
+}
+
+/* Jobs form layout */
+.job-form {
+  max-width: 680px;
+  margin: 10px 0 20px 0;
+}
+
+.job-form .form-row {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  /* label column + field column */
+  align-items: top;
+  gap: 10px 14px;
+  /* row gap, col gap */
+  margin-bottom: 12px;
+}
+
+.job-form .form-label {
+  justify-self: end;
+  /* right-align labels */
+  text-align: right;
+}
+
+.job-form .form-field input[type='text'],
+.job-form .form-field input[type='email'],
+.job-form .form-field input[type='date'],
+.job-form .form-field textarea {
+  width: 280px;
+  /* ensures input on same line with label */
+  max-width: 100%;
+  padding: 6px 8px;
+  /* a few pixels away from title via grid gap */
+  border: 1px solid #a98a68;
+  background-color: #fff;
+}
+
+.job-form .form-field textarea {
+  height: 90px;
+}
+
+.job-form .form-actions input[type='reset']:hover,
+.job-form .form-actions input[type='submit']:hover {
+  background-color: #d6c4a8;
+}
+
+/* Menu page table styling */
+.menu-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 16px;
+  /* vertical gaps between rows */
+}
+
+.menu-table td {
+  vertical-align: middle;
+  /* center content vertically within the row */
+  padding: 14px 16px;
+}
+
+.menu-table .item {
+  width: 180px;
+  background-color: #caa481;
+  color: #3b1f10;
+  font-weight: bold;
+  text-align: center;
+}
+
+.menu-table .desc {
+  background-color: #dbc19f;
+  border-left: 4px solid #f5f5dc;
+  /* white divider between columns */
+}
+
+.menu-table .price {
+  display: block;
+  font-weight: bold;
+  margin-top: 6px;
+}
+
+/* Center the menu table within content */
+.menu-table {
+  max-width: 800px;
+  margin: 0 auto;
+  /* horizontal center */
+}
+
+/* White divider between item and description cells */
+.menu-table td + td {
+  border-left: 4px solid #ffffff;
+}
+
+/* Cafe au Lait row (2nd row) uses #f5f5dc */
+.menu-table tbody tr:nth-child(2) .item,
+.menu-table tbody tr:nth-child(2) .desc {
+  background-color: #f5f5dc;
+}
+
+/* Order controls (quantity, subtotal) - keep them compact and right aligned */
+.menu-table .order-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  /* row gap, column gap */
+  justify-content: flex-end;
+  /* push controls to the right of the description cell */
+  align-items: center;
+  margin-top: 8px;
+}
+
+.menu-table .order-controls label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.95em;
+}
+
+/* Stack single/double shot radio buttons vertically */
+.menu-table .shot-options {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-right: 8px;
+  width: 100%;
+  /* take full line so radios are placed under the price */
+  align-items: flex-start;
+  /* left-align the radio labels */
+}
+
+.menu-table .order-controls input[type='number'],
+.menu-table .order-controls input[type='text'] {
+  width: 90px;
+  padding: 6px 8px;
+  border: 1px solid #b89a76;
+  border-radius: 3px;
+  background: #fff;
+  text-align: right;
+  /* numbers align to the right */
+}
+
+/* Make subtotal inputs look read-only */
+.menu-table .order-controls input[readonly] {
+  background: #f3efe8;
+  color: #222;
+}
+
+/* Total box aligned bottom-right */
+.total-row {
+  max-width: 800px;
+  margin: 14px auto 40px auto;
+  /* center container but controls inside will align right */
+  display: flex;
+  justify-content: flex-end;
+  /* push total to the right */
+  align-items: center;
+}
+
+.total-row label {
+  font-weight: bold;
+  gap: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.total-row input#total_price {
+  width: 160px;
+  padding: 6px 8px;
+  border: 1px solid #b89a76;
+  border-radius: 3px;
+  background: #fff;
+  text-align: right;
+}

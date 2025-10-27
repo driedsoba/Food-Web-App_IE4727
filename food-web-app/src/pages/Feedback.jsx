@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useAuth } from '../hooks/useAuth';
+import { feedbackAPI } from '../services/api';
 import './Feedback.css';
 
 const Feedback = () => {
+  const { user, isAuthenticated } = useAuth();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -9,32 +12,35 @@ const Feedback = () => {
     orderNumber: '',
     feedback: ''
   });
-
-  const [feedbacks, setFeedbacks] = useState([
-    {
-      id: 1,
-      name: 'Sarah Johnson',
-      rating: 5,
-      feedback: 'Absolutely amazing experience! The food was incredible, hot, and fresh. Will definitely order again!',
-      date: '2 days ago'
-    },
-    {
-      id: 2,
-      name: 'Michael Chen',
-      rating: 4,
-      feedback: 'Great food and fast delivery. The portions were generous and everything was delicious.',
-      date: '5 days ago'
-    },
-    {
-      id: 3,
-      name: 'Emma Williams',
-      rating: 5,
-      feedback: 'Best restaurant in town! The quality is always consistent and the staff is so friendly.',
-      date: '1 week ago'
-    }
-  ]);
-
+  const [feedbacks, setFeedbacks] = useState([]);
   const [hoveredRating, setHoveredRating] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  // Pre-fill name and email if user is logged in
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      setFormData(prev => ({
+        ...prev,
+        name: user.full_name || user.username || '',
+        email: user.email || ''
+      }));
+    }
+  }, [isAuthenticated, user]);
+
+  // Fetch feedbacks on component mount
+  useEffect(() => {
+    fetchFeedbacks();
+  }, []);
+
+  const fetchFeedbacks = async () => {
+    try {
+      const data = await feedbackAPI.getFeedbacks();
+      setFeedbacks(data);
+    } catch (err) {
+      console.error('Error fetching feedbacks:', err);
+    }
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -42,6 +48,7 @@ const Feedback = () => {
       ...formData,
       [name]: value
     });
+    setError('');
   };
 
   const handleRatingClick = (rating) => {
@@ -53,37 +60,38 @@ const Feedback = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // TODO: Replace with actual PHP API call
-    // Example: await fetch('/api/feedback.php', { method: 'POST', body: JSON.stringify(formData) })
-    
-    // For now, add to local state
-    const newFeedback = {
-      id: feedbacks.length + 1,
-      name: formData.name,
-      rating: formData.rating,
-      feedback: formData.feedback,
-      date: 'Just now'
-    };
+    setError('');
+    setLoading(true);
 
-    setFeedbacks([newFeedback, ...feedbacks]);
+    try {
+      const result = await feedbackAPI.submitFeedback(formData);
 
-    // Reset form
-    setFormData({
-      name: '',
-      email: '',
-      rating: 0,
-      orderNumber: '',
-      feedback: ''
-    });
+      if (result.success) {
+        // Reset form
+        setFormData({
+          name: isAuthenticated && user ? (user.full_name || user.username || '') : '',
+          email: isAuthenticated && user ? (user.email || '') : '',
+          rating: 0,
+          orderNumber: '',
+          feedback: ''
+        });
 
-    alert('Thank you for your feedback!');
+        alert('Thank you for your feedback! It will be reviewed before being published.');
+
+        // Refresh feedbacks
+        fetchFeedbacks();
+      }
+    } catch (err) {
+      setError(err.message || 'Failed to submit feedback. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const renderStars = (rating, isInteractive = false) => {
     return [...Array(5)].map((_, index) => {
       const starRating = index + 1;
-      const isFilled = isInteractive 
+      const isFilled = isInteractive
         ? starRating <= (hoveredRating || formData.rating)
         : starRating <= rating;
 
@@ -111,6 +119,20 @@ const Feedback = () => {
           Your opinion helps us improve our service. Share your experience with Lecker Haus and help us serve you better.
         </p>
 
+        {error && (
+          <div className="error-message" style={{
+            backgroundColor: '#fee',
+            color: '#c33',
+            padding: '12px',
+            borderRadius: '8px',
+            marginBottom: '20px',
+            maxWidth: '700px',
+            margin: '0 auto 20px'
+          }}>
+            {error}
+          </div>
+        )}
+
         <div className="feedback-form-container">
           <h2>Share Your Experience</h2>
           <form onSubmit={handleSubmit} className="feedback-form">
@@ -124,6 +146,7 @@ const Feedback = () => {
                 onChange={handleInputChange}
                 placeholder="John Doe"
                 required
+                disabled={loading}
               />
             </div>
 
@@ -137,6 +160,7 @@ const Feedback = () => {
                 onChange={handleInputChange}
                 placeholder="john@example.com"
                 required
+                disabled={loading}
               />
             </div>
 
@@ -156,6 +180,7 @@ const Feedback = () => {
                 value={formData.orderNumber}
                 onChange={handleInputChange}
                 placeholder="#12345"
+                disabled={loading}
               />
             </div>
 
@@ -169,12 +194,13 @@ const Feedback = () => {
                 placeholder="Tell us about your experience with our service, food quality, delivery time, etc..."
                 rows="5"
                 required
+                disabled={loading}
               />
             </div>
 
-            <button type="submit" className="submit-button">
+            <button type="submit" className="submit-button" disabled={loading}>
               <span className="submit-icon">👍</span>
-              Submit Feedback
+              {loading ? 'Submitting...' : 'Submit Feedback'}
             </button>
           </form>
         </div>
@@ -183,22 +209,30 @@ const Feedback = () => {
       {/* Customer Feedback Display Section */}
       <section className="feedback-display-section">
         <h2>What Our Customers Say</h2>
-        <div className="feedbacks-list">
-          {feedbacks.map((feedback) => (
-            <div key={feedback.id} className="feedback-card">
-              <div className="feedback-header">
-                <div className="feedback-author">
-                  <h3>{feedback.name}</h3>
-                  <div className="feedback-rating">
-                    {renderStars(feedback.rating)}
+        {feedbacks.length > 0 ? (
+          <div className="feedbacks-list">
+            {feedbacks.map((feedback) => (
+              <div key={feedback.id} className="feedback-card">
+                <div className="feedback-header">
+                  <div className="feedback-author">
+                    <h3>{feedback.name}</h3>
+                    <div className="feedback-rating">
+                      {renderStars(feedback.rating)}
+                    </div>
                   </div>
+                  <span className="feedback-date">
+                    {new Date(feedback.created_at).toLocaleDateString()}
+                  </span>
                 </div>
-                <span className="feedback-date">{feedback.date}</span>
+                <p className="feedback-text">{feedback.feedback}</p>
               </div>
-              <p className="feedback-text">{feedback.feedback}</p>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <p style={{ textAlign: 'center', color: '#666', padding: '40px' }}>
+            No feedbacks yet. Be the first to share your experience!
+          </p>
+        )}
       </section>
     </div>
   );

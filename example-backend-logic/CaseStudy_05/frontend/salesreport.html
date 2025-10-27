@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>JavaJam Coffee House - Sales Report</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      .report-container {
+        padding: 20px;
+      }
+
+      .report-header {
+        text-align: center;
+        color: #8c3826;
+        margin-bottom: 30px;
+      }
+
+      .date-selector {
+        text-align: center;
+        margin: 20px 0;
+        padding: 15px;
+        background: white;
+        border-radius: 5px;
+      }
+
+      .date-selector input[type='date'] {
+        padding: 8px;
+        font-size: 16px;
+        border: 2px solid #d2691e;
+        border-radius: 4px;
+        margin: 0 10px;
+      }
+
+      .date-selector button {
+        background: #8c3826;
+        color: white;
+        padding: 8px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+      }
+
+      .date-selector button:hover {
+        background: #6d2819;
+      }
+
+      .report-section {
+        background: white;
+        padding: 20px;
+        margin: 20px 0;
+        border-radius: 5px;
+        border: 2px solid #d2691e;
+      }
+
+      .report-section h3 {
+        color: #8c3826;
+        border-bottom: 2px solid #d2691e;
+        padding-bottom: 10px;
+      }
+
+      .sales-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+      }
+
+      .sales-table th {
+        background: #8c3826;
+        color: white;
+        padding: 12px;
+        text-align: left;
+      }
+
+      .sales-table td {
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+      }
+
+      .sales-table tr:nth-child(even) {
+        background: #f9f9f9;
+      }
+
+      .sales-table tr:hover {
+        background: #fef6c2;
+      }
+
+      .no-data {
+        text-align: center;
+        padding: 40px;
+        color: #666;
+        font-style: italic;
+      }
+
+      .best-selling-box {
+        background: #fef6c2;
+        border: 2px solid #d2691e;
+        padding: 15px;
+        margin: 15px 0;
+        border-radius: 5px;
+      }
+
+      .best-selling-box strong {
+        color: #8c3826;
+      }
+
+      .highlight {
+        color: #d2691e;
+        font-weight: bold;
+      }
+
+      @media print {
+        #leftcolumn,
+        .date-selector {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="wrapper">
+      <header>
+        <h1>JavaJam Coffee House</h1>
+      </header>
+
+      <div id="leftcolumn">
+        <nav>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="menu.html">Menu</a></li>
+            <li><a href="music.html">Music</a></li>
+            <li><a href="jobs.html">Jobs</a></li>
+            <li><a href="updateprice.html">Update Prices</a></li>
+            <li><a href="salesreport.html" class="current">Sales Report</a></li>
+          </ul>
+        </nav>
+      </div>
+
+      <div id="rightcolumn">
+        <div class="content report-container">
+          <div class="report-header">
+            <h2>Daily Sales Report</h2>
+            <p>Click to generate daily sales report</p>
+          </div>
+
+          <div class="date-selector">
+            <label for="reportDate"><strong>Select Date:</strong></label>
+            <input type="date" id="reportDate" required />
+            <button onclick="generateReport()">Generate Report</button>
+            <button onclick="window.print()">Print Report</button>
+          </div>
+
+          <div id="salesByProduct" class="report-section" style="display: none">
+            <h3>Total Dollar and Quantity Sales by Products</h3>
+            <div id="productContent"></div>
+          </div>
+
+          <div id="salesByCategory" class="report-section" style="display: none">
+            <h3>Total Dollar and Quantity Sales by Categories</h3>
+            <div id="categoryContent"></div>
+          </div>
+
+          <div id="bestSelling" class="report-section" style="display: none">
+            <h3>Popular Option of Best Selling Product</h3>
+            <div id="bestSellingContent"></div>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        Copyright &copy; 2014 JavaJam Coffee House
+        <br />
+        <a href="mailto:junle@liw.com">junle@liw.com</a>
+      </footer>
+    </div>
+
+    <script src="salesreport.js"></script>
+  </body>
+</html>

@@ -32,9 +32,6 @@ const Hero = () => {
         </p>
         {/* Simple search bar. Replace alert/submit logic later if needed. */}
         <form className="home-search" role="search" onSubmit={handleSearch}>
-          <span className="home-search__icon" aria-hidden="true">
-            🔍
-          </span>
           <input
             id="hero-search"
             type="search"
@@ -42,7 +39,19 @@ const Hero = () => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
-          <button type="submit">Find Food</button>
+          <button 
+            type="button" 
+            className="btn-secondary" 
+            onClick={() => {
+              if (searchQuery.trim()) {
+                navigate(`/menu?search=${encodeURIComponent(searchQuery.trim())}`)
+              } else {
+                navigate('/menu')
+              }
+            }}
+          >
+            Browse Menu
+          </button>
         </form>
         <dl className="home-hero__stats">
           {stats.map((stat) => (

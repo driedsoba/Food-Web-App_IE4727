@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>JavaJam Coffee House</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="wrapper">
+      <header>
+        <h1>JavaJam Coffee House</h1>
+      </header>
+
+      <div id="leftcolumn">
+        <nav>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="menu.html">Menu</a></li>
+            <li><a href="music.html">Music</a></li>
+            <li><a href="jobs.html" class="current">Jobs</a></li>
+            <li><a href="updateprice.html">Update Prices</a></li>
+            <li><a href="salesreport.html">Sales Report</a></li>
+          </ul>
+        </nav>
+      </div>
+
+      <div id="rightcolumn">
+        <div class="content">
+          <h2>Jobs at JavaJam</h2>
+
+          <p>
+            Want to work at JavaJam? Fill out the form below to start your application. Required
+            fields are marked with an asterisk *
+          </p>
+
+          <form action="show_post.php" method="post" class="job-form">
+            <div class="form-row">
+              <label for="CustName" class="form-label">*Name:</label>
+              <div class="form-field">
+                <input
+                  type="text"
+                  name="CustName"
+                  id="CustName"
+                  required
+                  placeholder="Enter your name here"
+                />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <label for="CustEmail" class="form-label">*E-mail:</label>
+              <div class="form-field">
+                <input
+                  type="email"
+                  name="CustEmail"
+                  id="CustEmail"
+                  required
+                  placeholder="Enter your Email-ID here"
+                />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <label for="startdate" class="form-label">Start Date:</label>
+              <div class="form-field">
+                <input type="date" name="startdate" id="startdate" />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <label for="comments" class="form-label">*Experience:</label>
+              <div class="form-field">
+                <textarea
+                  name="comments"
+                  id="comments"
+                  rows="4"
+                  placeholder="Enter your past experience here"
+                ></textarea>
+              </div>
+            </div>
+
+            <div>
+              <input type="reset" value="Clear" /> <br /><br />
+              <input type="submit" value="Apply Now" />
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <footer>
+        Copyright &copy; 2014 JavaJam Coffee House
+        <br />
+        <a href="mailto:junle@liw.com">junle@liw.com</a>
+      </footer>
+    </div>
+    <script src="formvalidation.js"></script>
+  </body>
+</html>

@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>JavaJam Coffee House</title>
+    <link rel="stylesheet" href="styles.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      .month-label {
+        display: block;
+        width: 100%;
+        max-width: 680px;
+        margin: 20px auto 10px auto;
+        padding: 6px 0px;
+        background-color: #d6c4a8;
+        font-weight: bold;
+        text-transform: uppercase;
+      }
+
+      .music-table {
+        width: 100%;
+        max-width: 680px;
+        margin: 0 auto 10px auto; /* small gap after each table */
+
+        border-spacing: 0 16px; /* match menu table vertical gaps */
+      }
+
+      .music-table td {
+        vertical-align: middle;
+        padding: 14px 16px; /* match menu table cell padding */
+      }
+
+      .music-table .art {
+        width: 90px;
+        background-color: #f5f5dc;
+        text-align: center;
+      }
+
+      .music-table .art img {
+        width: 96px;
+        height: 96px;
+        object-fit: cover;
+        border-radius: 4px;
+        margin-left: 20px;
+        margin-bottom: 10px;
+      }
+
+      .music-table .desc {
+        background-color: #f5f5dc;
+        border-left: 4px solid #f5f5dc; /* white divider like the menu */
+        padding-left: 24px; /* add space after divider for text */
+      }
+
+      .music-table .desc p {
+        margin: 0 0 6px 0;
+      }
+
+      .music-table .cta {
+        font-weight: bold;
+      }
+
+      .music-table audio {
+        width: 100%;
+        margin-top: 6px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="wrapper">
+      <header>
+        <h1>JavaJam Coffee House</h1>
+      </header>
+
+      <div id="leftcolumn">
+        <nav>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="menu.html">Menu</a></li>
+            <li><a href="music.html" class="current">Music</a></li>
+            <li><a href="jobs.html">Jobs</a></li>
+            <li><a href="updateprice.html">Update Prices</a></li>
+            <li><a href="salesreport.html">Sales Report</a></li>
+          </ul>
+        </nav>
+      </div>
+
+      <div id="rightcolumn">
+        <div class="content">
+          <h2>Music at JavaJam</h2>
+          <p style="margin-bottom: 18px">
+            The first Friday night each month at JavaJam is a special night. Join us from 8pm to
+            11pm for<br />some music you won’t want to miss.
+          </p>
+
+          <span class="month-label">January</span>
+          <table class="music-table">
+            <tbody>
+              <tr>
+                <td class="art">
+                  <img src="../assets/coffee.jpg" />
+                </td>
+                <td class="desc">
+                  <p>
+                    Melanie Morris entertains with her <br />
+                    melodic folk style.
+                  </p>
+                  <p class="cta">CDs are available now!</p>
+                  <audio controls></audio>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <span class="month-label">February</span>
+          <table class="music-table">
+            <tbody>
+              <tr>
+                <td class="art">
+                  <img src="../assets/coffee.jpg" />
+                </td>
+                <td class="desc">
+                  <p>
+                    Tahoe Greg is back from his tour. <br />
+                    New songs. New stories.
+                  </p>
+                  <p class="cta">CDs are available now!</p>
+                  <audio controls></audio>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <footer>
+        Copyright &copy; 2014 JavaJam Coffee House
+        <br />
+        <a href="mailto:junle@liw.com">junle@liw.com</a>
+      </footer>
+    </div>
+  </body>
+</html>

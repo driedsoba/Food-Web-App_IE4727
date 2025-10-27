@@ -1,8 +1,18 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
+import { useAuth } from '../../hooks/useAuth';
 import './Header.css';
 
 const Header = () => {
+  const { user, isAuthenticated, logout } = useAuth();
+
+  const handleLogout = async () => {
+    const result = await logout();
+    if (result.success) {
+      alert('Logged out successfully');
+    }
+  };
+
   return (
     <header className="header">
       <div className="header-container">
@@ -11,17 +21,28 @@ const Header = () => {
         </div>
         <nav className="navigation">
           <ul>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/menu">Menu</Link></li>
-            <li><Link to="/catering">Catering</Link></li>
-            <li><Link to="/feedback">Feedback</Link></li>
+            <li><NavLink to="/" end>Home</NavLink></li>
+            <li><NavLink to="/menu">Menu</NavLink></li>
+            <li><NavLink to="/catering">Catering</NavLink></li>
+            <li><NavLink to="/feedback">Feedback</NavLink></li>
           </ul>
         </nav>
         <div className="cart-section">
-          <button className="cart-button">
-            <span className="cart-icon">🛒</span>
+          {isAuthenticated ? (
+            <>
+              <span className="user-greeting">Hello, {user?.username}!</span>
+              <button className="logout-button" onClick={handleLogout}>
+                Logout
+              </button>
+            </>
+          ) : (
+            <Link to="/login" className="login-button">
+              <span className="login-text">Login</span>
+            </Link>
+          )}
+          <Link to="/cart" className="cart-button">
             <span className="cart-text">Cart</span>
-          </button>
+          </Link>
         </div>
       </div>
     </header>

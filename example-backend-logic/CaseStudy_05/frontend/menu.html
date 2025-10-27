@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>JavaJam Coffee House</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="wrapper">
+      <header>
+        <h1>JavaJam Coffee House</h1>
+      </header>
+
+      <div id="leftcolumn">
+        <nav>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="menu.html" class="current">Menu</a></li>
+            <li><a href="music.html">Music</a></li>
+            <li><a href="jobs.html">Jobs</a></li>
+            <li><a href="updateprice.html">Update Prices</a></li>
+            <li><a href="salesreport.html">Sales Report</a></li>
+          </ul>
+        </nav>
+      </div>
+
+      <div id="rightcolumn">
+        <div class="content">
+          <h2>Coffee at JavaJam</h2>
+
+          <table class="menu-table">
+            <tbody>
+              <tr>
+                <td class="item">Just Java</td>
+                <td class="desc">
+                  Regular house blend, decaffeinated coffee, or flavor of <br />
+                  the day.
+                  <span class="price" id="price_justjava">Endless Cup $2.00</span>
+                  <div class="order-controls">
+                    <label
+                      >Quantity: <input type="number" min="0" value="0" id="qty_justjava"
+                    /></label>
+                    <label
+                      >Subtotal: <input type="text" id="sub_justjava" readonly value="0.00"
+                    /></label>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="item">Cafe au Lait</td>
+                <td class="desc">
+                  House blended coffee infused into a smooth, steamed <br />
+                  milk.
+                  <span class="price" id="price_cafelait">Single $2.00 Double $3.00</span>
+                  <div class="order-controls">
+                    <div class="shot-options">
+                      <label>
+                        <input
+                          type="radio"
+                          name="cafelait_shot"
+                          value="single"
+                          id="cafelait_single"
+                          checked
+                        />
+                        Single
+                      </label>
+                      <label>
+                        <input
+                          type="radio"
+                          name="cafelait_shot"
+                          value="double"
+                          id="cafelait_double"
+                        />
+                        Double
+                      </label>
+                    </div>
+                    <label
+                      >Quantity: <input type="number" min="0" value="0" id="qty_cafelait"
+                    /></label>
+                    <label
+                      >Subtotal: <input type="text" id="sub_cafelait" readonly value="0.00"
+                    /></label>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="item">Iced Cappuccino</td>
+                <td class="desc">
+                  Sweetened espresso blended with icy-cold milk and <br />
+                  served in a chilled glass.
+                  <span class="price" id="price_capp">Single $4.75 Double $5.75</span>
+                  <div class="order-controls">
+                    <div class="shot-options">
+                      <label>
+                        <input
+                          type="radio"
+                          name="capp_shot"
+                          value="single"
+                          id="capp_single"
+                          checked
+                        />
+                        Single
+                      </label>
+                      <label>
+                        <input type="radio" name="capp_shot" value="double" id="capp_double" />
+                        Double
+                      </label>
+                    </div>
+                    <label>Quantity: <input type="number" min="0" value="0" id="qty_capp" /></label>
+                    <label
+                      >Subtotal: <input type="text" id="sub_capp" readonly value="0.00"
+                    /></label>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="total-row">
+            <label>Total: <input type="text" id="total_price" readonly value="0.00" /></label>
+            <button type="button" id="checkoutBtn" onclick="checkOut()">Check Out</button>
+          </div>
+
+          <div
+            id="checkoutMessage"
+            style="
+              display: none;
+              padding: 15px;
+              margin: 20px 0;
+              border-radius: 5px;
+              text-align: center;
+              font-weight: bold;
+            "
+          ></div>
+        </div>
+      </div>
+
+      <footer>
+        Copyright &copy; 2014 JavaJam Coffee House
+        <br />
+        <a href="mailto:junle@liw.com">junle@liw.com</a>
+      </footer>
+    </div>
+    <script src="MenuUpdate.js"></script>
+  </body>
+</html>
