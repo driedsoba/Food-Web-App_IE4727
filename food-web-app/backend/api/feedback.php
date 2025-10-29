@@ -8,9 +8,8 @@ $db = $database->getConnection();
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // Get approved feedbacks only
-    $query = "SELECT f.id, f.rating, f.comment, f.created_at, u.username
+    $query = "SELECT f.id, f.name, f.rating, f.feedback, f.created_at
               FROM feedbacks f
-              LEFT JOIN users u ON f.user_id = u.id
               WHERE f.approved = 1
               ORDER BY f.created_at DESC";
     
@@ -25,17 +24,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // Submit new feedback
     $data = json_decode(file_get_contents("php://input"));
     
-    if (!empty($data->rating) && !empty($data->comment)) {
+    if (!empty($data->rating) && !empty($data->feedback) && !empty($data->name) && !empty($data->email)) {
         $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
+        $order_number = isset($data->orderNumber) ? $data->orderNumber : null;
         
-        $query = "INSERT INTO feedbacks (user_id, rating, comment, approved) 
-                  VALUES (:user_id, :rating, :comment, 0)";
+        $query = "INSERT INTO feedbacks (user_id, name, email, rating, order_number, feedback, approved) 
+                  VALUES (:user_id, :name, :email, :rating, :order_number, :feedback, 0)";
         
         $stmt = $db->prepare($query);
         
         $stmt->bindParam(":user_id", $user_id);
+        $stmt->bindParam(":name", $data->name);
+        $stmt->bindParam(":email", $data->email);
         $stmt->bindParam(":rating", $data->rating);
-        $stmt->bindParam(":comment", $data->comment);
+        $stmt->bindParam(":order_number", $order_number);
+        $stmt->bindParam(":feedback", $data->feedback);
         
         if ($stmt->execute()) {
             http_response_code(201);
