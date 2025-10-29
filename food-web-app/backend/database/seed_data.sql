@@ -19,7 +19,7 @@ VALUES
     '25-35 min',
     4.9,
     'Classic breaded veal cutlet, served with potato salad and lemon',
-    'https://images.unsplash.com/photo-1604908177176-a46aa23c0d12?auto=format&fit=crop&w=800&q=80'
+    'https://images.unsplash.com/photo-1599921841143-819065a55cc6?auto=format&fit=crop&w=800&q=80'
   ),
   (
     'Bratwurst Platter',
@@ -27,17 +27,8 @@ VALUES
     14.99,
     '20-30 min',
     4.7,
-    'Grilled German sausages with sauerkraut and mustard',
-    'https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?auto=format&fit=crop&w=800&q=80'
-  ),
-  (
-    'Käsespätzle',
-    'Mains',
-    13.99,
-    '20-25 min',
-    4.8,
-    'Traditional egg noodles with melted cheese and crispy onions',
-    'https://images.unsplash.com/photo-1505576633757-0ac1084af824?auto=format&fit=crop&w=800&q=80'
+    'Grilled German sausages with sauerkraut, mustard and green peas',
+    'https://images.unsplash.com/photo-1658925111653-2c08083c08ff?auto=format&fit=crop&w=800&q=80'
   ),
   (
     'Sauerbraten',
@@ -46,7 +37,7 @@ VALUES
     '30-40 min',
     4.7,
     'Tender pot roast marinated in vinegar with red cabbage',
-    'https://images.unsplash.com/photo-1525755662778-989d0524087e?auto=format&fit=crop&w=800&q=80'
+    'https://images.unsplash.com/photo-1622003184404-bc0c66144534?auto=format&fit=crop&w=800&q=80'
   ),
   (
     'Black Forest Cake',
@@ -55,7 +46,7 @@ VALUES
     '20-25 min',
     5.0,
     'Chocolate sponge cake with cherries and whipped cream',
-    'https://images.unsplash.com/photo-1544280979-4c0ae7abb8fc?auto=format&fit=crop&w=800&q=80'
+    'https://images.unsplash.com/photo-1606890737304-57a1ca8a5b62?auto=format&fit=crop&w=800&q=80'
   ),
   (
     'Apple Strudel',
@@ -64,16 +55,25 @@ VALUES
     '18-22 min',
     4.8,
     'Flaky pastry filled with spiced apples and raisins',
-    'https://images.unsplash.com/photo-1504753793650-d4a2b783c15e?auto=format&fit=crop&w=800&q=80'
+    'https://images.unsplash.com/photo-1657313938000-23c4322dbe22?auto=format&fit=crop&w=800&q=80'
   ),
   (
-    'Bavarian Pretzel Board',
+    'Rinderbraten',
     'Starters',
     9.49,
     '15-20 min',
     4.6,
-    'Warm soft pretzels with assorted mustards and cheese dip',
-    'https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?auto=format&fit=crop&w=800&q=80'
+    'Tender beef roast with mushroom sauce',
+    'https://images.unsplash.com/photo-1746214093457-2305c2f8605e?auto=format&fit=crop&w=800&q=80'
+  ),
+  (
+    'Krautsalat',
+    'Starters',
+    6.99,
+    '10-15 min',
+    4.5,
+    'Traditional German coleslaw with caraway seeds',
+    'https://images.unsplash.com/photo-1537784969314-05a37106f68e?auto=format&fit=crop&w=800&q=80'
   ),
   (
     'German Potato Salad',
@@ -82,7 +82,16 @@ VALUES
     '15-20 min',
     4.5,
     'Warm potato salad with bacon, onions, and vinegar dressing',
-    'https://images.unsplash.com/photo-1505935428862-770b6f24f629?auto=format&fit=crop&w=800&q=80'
+    'https://images.unsplash.com/photo-1623501742030-65c324e08846?auto=format&fit=crop&w=800&q=80'
+  ),
+  (
+    'Bratkartoffeln',
+    'Sides',
+    7.49,
+    '15-20 min',
+    4.6,
+    'Pan-fried potatoes with onions and herbs',
+    'https://images.unsplash.com/photo-1761315414257-e402bedaa43e?auto=format&fit=crop&w=800&q=80'
   ),
   (
     'Currywurst',
@@ -91,7 +100,7 @@ VALUES
     '15-20 min',
     4.6,
     'Sliced bratwurst with curry ketchup and fries',
-    'https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?auto=format&fit=crop&w=800&q=80'
+    'https://images.unsplash.com/photo-1561701034-24ceb3e34433?auto=format&fit=crop&w=800&q=80'
   ),
   (
     'Rouladen',
@@ -103,22 +112,13 @@ VALUES
     'https://images.unsplash.com/photo-1432139555190-58524dae6a55?auto=format&fit=crop&w=800&q=80'
   ),
   (
-    'Sauerkraut',
-    'Sides',
-    6.99,
-    '10-15 min',
-    4.4,
-    'Traditional fermented cabbage with caraway seeds',
-    'https://images.unsplash.com/photo-1567016526105-22da7c13161a?auto=format&fit=crop&w=800&q=80'
-  ),
-  (
-    'Maultaschen',
+    'Königsberger Klopse',
     'Starters',
-    11.99,
-    '20-25 min',
+    15.99,
+    '25-30 min',
     4.7,
-    'German dumplings filled with meat and spinach in broth',
-    'https://images.unsplash.com/photo-1496412705862-e0088f16f791?auto=format&fit=crop&w=800&q=80'
+    'Traditional meatballs in creamy caper sauce',
+    'https://images.unsplash.com/photo-1598511726903-ef08ef6eff94?auto=format&fit=crop&w=800&q=80'
   );
 
 -- Insert sample user (password: password123)
