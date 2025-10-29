@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // Get cart items
     if ($user_id) {
         // Get cart for logged-in user
-        $query = "SELECT c.id, c.quantity, m.name, m.description, m.price, m.image_url, m.category
+        $query = "SELECT c.id, c.menu_item_id, c.quantity, m.name, m.description, m.price, m.image_url, m.category
                   FROM cart_items c
                   JOIN menu_items m ON c.menu_item_id = m.id
                   WHERE c.user_id = :user_id";
@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $stmt->bindParam(":user_id", $user_id);
     } else {
         // Get cart for guest session
-        $query = "SELECT c.id, c.quantity, m.name, m.description, m.price, m.image_url, m.category
+        $query = "SELECT c.id, c.menu_item_id, c.quantity, m.name, m.description, m.price, m.image_url, m.category
                   FROM cart_items c
                   JOIN menu_items m ON c.menu_item_id = m.id
                   WHERE c.session_id = :session_id AND c.user_id IS NULL";
@@ -144,10 +144,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     }
     
 } else if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
-    // Remove item from cart
+    // Remove item from cart or clear entire cart
     $data = json_decode(file_get_contents("php://input"));
     
-    if (!empty($data->cart_item_id)) {
+    // Check if we're clearing the entire cart
+    if (isset($data->clear_cart) && $data->clear_cart === true) {
+        if ($user_id) {
+            $query = "DELETE FROM cart_items WHERE user_id = :user_id";
+            $stmt = $db->prepare($query);
+            $stmt->bindParam(":user_id", $user_id);
+        } else {
+            $query = "DELETE FROM cart_items WHERE session_id = :session_id AND user_id IS NULL";
+            $stmt = $db->prepare($query);
+            $stmt->bindParam(":session_id", $session_id);
+        }
+        
+        if ($stmt->execute()) {
+            http_response_code(200);
+            echo json_encode([
+                "success" => true,
+                "message" => "Cart cleared"
+            ]);
+        } else {
+            http_response_code(503);
+            echo json_encode(["error" => "Unable to clear cart"]);
+        }
+    } else if (!empty($data->cart_item_id)) {
         if ($user_id) {
             $query = "DELETE FROM cart_items WHERE id = :cart_item_id AND user_id = :user_id";
             $stmt = $db->prepare($query);

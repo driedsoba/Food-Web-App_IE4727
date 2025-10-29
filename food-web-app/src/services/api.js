@@ -154,6 +154,14 @@ export const cartAPI = {
       body: JSON.stringify({ cart_item_id: cartItemId }),
     });
   },
+
+  // Clear entire cart
+  clearCart: async () => {
+    return fetchWithCredentials(`${API_BASE_URL}/cart.php`, {
+      method: 'DELETE',
+      body: JSON.stringify({ clear_cart: true }),
+    });
+  },
 };
 
 // Feedback API

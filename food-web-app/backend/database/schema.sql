@@ -67,16 +67,8 @@ CREATE TABLE feedbacks (
 CREATE TABLE orders (
   id INT AUTO_INCREMENT PRIMARY KEY,
   user_id INT,
-  order_number VARCHAR(50) UNIQUE NOT NULL,
   total_amount DECIMAL(10, 2) NOT NULL,
-  status ENUM (
-    'pending',
-    'confirmed',
-    'preparing',
-    'out_for_delivery',
-    'delivered',
-    'cancelled'
-  ) DEFAULT 'pending',
+  status VARCHAR(50) DEFAULT 'order placed',
   customer_name VARCHAR(255),
   customer_email VARCHAR(255),
   customer_phone VARCHAR(50),

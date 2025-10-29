@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { cartAPI } from '../services/api';
+import { createOrderFromCartItems } from '../services/orders';
 import './Cart.css';
 
 const Cart = () => {
@@ -8,6 +9,7 @@ const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [placingOrder, setPlacingOrder] = useState(false);
 
   useEffect(() => {
     fetchCart();
@@ -52,6 +54,41 @@ const Cart = () => {
       fetchCart();
     } catch (error) {
       alert(error.message || 'Failed to remove item');
+    }
+  };
+
+  const handlePlaceOrder = async () => {
+    if (cartItems.length === 0) {
+      alert('Your cart is empty');
+      return;
+    }
+
+    setPlacingOrder(true);
+    try {
+      // Prepare items for order creation
+      const orderItems = cartItems.map(item => ({
+        menu_item_id: item.menu_item_id,
+        quantity: item.quantity,
+        price: item.price
+      }));
+
+      // Create the order
+      const result = await createOrderFromCartItems(orderItems);
+      
+      if (result.success) {
+        // Clear the cart after successful order
+        await cartAPI.clearCart();
+        
+        // Navigate to order status page
+        navigate('/order-status');
+      } else {
+        throw new Error(result.error || 'Failed to create order');
+      }
+    } catch (error) {
+      console.error('Order creation error:', error);
+      alert(error.message || 'Failed to place order. Please try again.');
+    } finally {
+      setPlacingOrder(false);
     }
   };
 
@@ -143,8 +180,12 @@ const Cart = () => {
                 <span>Total:</span>
                 <span>${(calculateTotal() + 5.00).toFixed(2)}</span>
               </div>
-              <button className="checkout-btn" onClick={() => alert('Checkout feature coming soon!')}>
-                Proceed to Checkout
+              <button 
+                className="checkout-btn" 
+                onClick={handlePlaceOrder}
+                disabled={placingOrder}
+              >
+                {placingOrder ? 'Placing Order...' : 'Place Order'}
               </button>
               <button
                 className="continue-shopping-btn"
