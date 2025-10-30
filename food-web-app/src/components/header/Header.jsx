@@ -24,6 +24,11 @@ const Header = () => {
             <li><NavLink to="/" end>Home</NavLink></li>
             <li><NavLink to="/menu">Menu</NavLink></li>
             <li><NavLink to="/catering">Catering</NavLink></li>
+            <li>
+              <a href="http://localhost/Food-Web-App_IE4727/food-web-app/backend/order-history.php">
+                Order History
+              </a>
+            </li>
             <li><NavLink to="/feedback">Feedback</NavLink></li>
           </ul>
         </nav>
