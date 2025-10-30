@@ -34,6 +34,30 @@ const Login = () => {
     setError('')
   }
 
+  const validatePassword = (password) => {
+    // At least 8 characters
+    if (password.length < 8) {
+      return 'Password must be at least 8 characters long'
+    }
+
+    // Must contain at least one letter
+    if (!/[a-zA-Z]/.test(password)) {
+      return 'Password must contain at least one letter'
+    }
+
+    // Must contain at least one number
+    if (!/[0-9]/.test(password)) {
+      return 'Password must contain at least one number'
+    }
+
+    // Must contain at least one special character
+    if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+      return 'Password must contain at least one special character (!@#$%^&*(),.?":{}|<>)'
+    }
+
+    return null // Valid password
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
@@ -59,8 +83,10 @@ const Login = () => {
         return
       }
 
-      if (formData.password.length < 6) {
-        setError('Password must be at least 6 characters long')
+      // Validate password strength
+      const passwordError = validatePassword(formData.password)
+      if (passwordError) {
+        setError(passwordError)
         setLoading(false)
         return
       }
@@ -141,8 +167,13 @@ const Login = () => {
               onChange={handleChange}
               required
               placeholder="Enter your password"
-              minLength="6"
+              minLength="8"
             />
+            {!isLogin && (
+              <small className="password-hint">
+                Must be at least 8 characters with letters, numbers, and special characters (!@#$%^&*(),.?":{ }|&lt;&gt;)
+              </small>
+            )}
           </div>
 
           {!isLogin && (
@@ -156,7 +187,7 @@ const Login = () => {
                 onChange={handleChange}
                 required
                 placeholder="Confirm your password"
-                minLength="6"
+                minLength="8"
               />
             </div>
           )}
