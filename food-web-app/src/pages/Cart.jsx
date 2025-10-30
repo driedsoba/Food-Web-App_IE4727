@@ -2,18 +2,34 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { cartAPI } from '../services/api';
 import { createOrderFromCartItems } from '../services/orders';
+import { useAuth } from '../hooks/useAuth';
 import './Cart.css';
 
 const Cart = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [placingOrder, setPlacingOrder] = useState(false);
+  const [deliveryInfo, setDeliveryInfo] = useState({
+    customerName: '',
+    customerEmail: '',
+    customerPhone: '',
+    deliveryAddress: ''
+  });
 
   useEffect(() => {
     fetchCart();
-  }, []);
+    // Pre-fill name and email if user is logged in
+    if (user) {
+      setDeliveryInfo(prev => ({
+        ...prev,
+        customerName: user.full_name || user.username || '',
+        customerEmail: user.email || ''
+      }));
+    }
+  }, [user]);
 
   const fetchCart = async () => {
     try {
@@ -63,6 +79,24 @@ const Cart = () => {
       return;
     }
 
+    // Validate delivery information
+    if (!deliveryInfo.customerName.trim()) {
+      alert('Please enter your name');
+      return;
+    }
+    if (!deliveryInfo.customerEmail.trim()) {
+      alert('Please enter your email');
+      return;
+    }
+    if (!deliveryInfo.customerPhone.trim()) {
+      alert('Please enter your phone number');
+      return;
+    }
+    if (!deliveryInfo.deliveryAddress.trim()) {
+      alert('Please enter your delivery address');
+      return;
+    }
+
     setPlacingOrder(true);
     try {
       // Prepare items for order creation
@@ -72,13 +106,19 @@ const Cart = () => {
         price: item.price
       }));
 
-      // Create the order
-      const result = await createOrderFromCartItems(orderItems);
-      
+      // Create the order with delivery information
+      const result = await createOrderFromCartItems({
+        items: orderItems,
+        customer_name: deliveryInfo.customerName,
+        customer_email: deliveryInfo.customerEmail,
+        customer_phone: deliveryInfo.customerPhone,
+        delivery_address: deliveryInfo.deliveryAddress
+      });
+
       if (result.success) {
         // Clear the cart after successful order
         await cartAPI.clearCart();
-        
+
         // Navigate to order status page
         navigate('/order-status');
       } else {
@@ -180,8 +220,58 @@ const Cart = () => {
                 <span>Total:</span>
                 <span>${(calculateTotal() + 5.00).toFixed(2)}</span>
               </div>
-              <button 
-                className="checkout-btn" 
+
+              {/* Delivery Information Form */}
+              <div className="delivery-info-section">
+                <h3>Delivery Information</h3>
+                <div className="form-group">
+                  <label htmlFor="customerName">Full Name *</label>
+                  <input
+                    type="text"
+                    id="customerName"
+                    value={deliveryInfo.customerName}
+                    onChange={(e) => setDeliveryInfo({ ...deliveryInfo, customerName: e.target.value })}
+                    placeholder="John Doe"
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="customerEmail">Email *</label>
+                  <input
+                    type="email"
+                    id="customerEmail"
+                    value={deliveryInfo.customerEmail}
+                    onChange={(e) => setDeliveryInfo({ ...deliveryInfo, customerEmail: e.target.value })}
+                    placeholder="john@example.com"
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="customerPhone">Phone Number *</label>
+                  <input
+                    type="tel"
+                    id="customerPhone"
+                    value={deliveryInfo.customerPhone}
+                    onChange={(e) => setDeliveryInfo({ ...deliveryInfo, customerPhone: e.target.value })}
+                    placeholder="+65 1234 5678"
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="deliveryAddress">Delivery Address *</label>
+                  <textarea
+                    id="deliveryAddress"
+                    value={deliveryInfo.deliveryAddress}
+                    onChange={(e) => setDeliveryInfo({ ...deliveryInfo, deliveryAddress: e.target.value })}
+                    placeholder="123 Main St, #01-23, Singapore 123456"
+                    rows="3"
+                    required
+                  />
+                </div>
+              </div>
+
+              <button
+                className="checkout-btn"
                 onClick={handlePlaceOrder}
                 disabled={placingOrder}
               >

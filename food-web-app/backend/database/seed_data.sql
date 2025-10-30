@@ -59,7 +59,7 @@ VALUES
   ),
   (
     'Rinderbraten',
-    'Starters',
+    'Mains',
     9.49,
     '15-20 min',
     4.6,
@@ -123,14 +123,13 @@ VALUES
 
 -- Insert sample user (password: password123)
 INSERT INTO
-  users (username, email, password, full_name, phone)
+  users (username, email, password, full_name)
 VALUES
   (
     'testuser',
     'test@example.com',
     'test123',
-    'Test User',
-    '+1234567890'
+    'Test User'
   );
 
 -- Insert some approved feedbacks for display

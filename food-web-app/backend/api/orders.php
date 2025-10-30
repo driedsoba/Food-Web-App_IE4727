@@ -90,10 +90,21 @@ try {
     if ($action === 'create') {
       $input = json_decode(file_get_contents('php://input'), true);
       $items = $input['items'] ?? [];
+      $customerName = $input['customer_name'] ?? '';
+      $customerEmail = $input['customer_email'] ?? '';
+      $customerPhone = $input['customer_phone'] ?? '';
+      $deliveryAddress = $input['delivery_address'] ?? '';
 
       if (!is_array($items) || count($items) === 0) {
         http_response_code(400);
         echo json_encode(['error' => 'No items to checkout']);
+        exit;
+      }
+
+      // Validate delivery information
+      if (empty($customerName) || empty($customerEmail) || empty($customerPhone) || empty($deliveryAddress)) {
+        http_response_code(400);
+        echo json_encode(['error' => 'Please provide all delivery information']);
         exit;
       }
 
@@ -107,13 +118,17 @@ try {
       $pdo->beginTransaction();
       try {
         $insOrder = $pdo->prepare("
-          INSERT INTO orders (user_id, status, total_amount, created_at)
-          VALUES (:user_id, :status, :total_amount, NOW())
+          INSERT INTO orders (user_id, status, total_amount, customer_name, customer_email, customer_phone, delivery_address, created_at)
+          VALUES (:user_id, :status, :total_amount, :customer_name, :customer_email, :customer_phone, :delivery_address, NOW())
         ");
         $insOrder->execute([
           ':user_id' => $userId,
           ':status' => 'order placed',
-          ':total_amount' => $total
+          ':total_amount' => $total,
+          ':customer_name' => $customerName,
+          ':customer_email' => $customerEmail,
+          ':customer_phone' => $customerPhone,
+          ':delivery_address' => $deliveryAddress
         ]);
         $orderId = intval($pdo->lastInsertId());
 
