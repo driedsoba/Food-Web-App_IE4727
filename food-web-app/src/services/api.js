@@ -195,3 +195,31 @@ export const feedbackAPI = {
     });
   },
 };
+
+// Orders API
+export const ordersAPI = {
+  // Create order from cart items
+  createOrder: async (orderData) => {
+    return fetchWithCredentials(`${API_BASE_URL}/orders.php?action=create`, {
+      method: 'POST',
+      body: JSON.stringify(orderData),
+    });
+  },
+
+  // Get all orders for the current user
+  getOrders: async () => {
+    return fetchWithCredentials(`${API_BASE_URL}/orders.php`);
+  },
+
+  // Advance order status
+  advanceOrderStatus: async (orderId) => {
+    return fetchWithCredentials(`${API_BASE_URL}/orders.php?action=advance&id=${orderId}`, {
+      method: 'POST',
+    });
+  },
+
+  // Get order by ID
+  getOrderById: async (orderId) => {
+    return fetchWithCredentials(`${API_BASE_URL}/orders.php?id=${orderId}`);
+  },
+};

@@ -64,8 +64,8 @@ const Catering = () => {
                 <tr>
                   <th scope="row" className="feature-name">Tableware</th>
                   <td>Disposable</td>
-                  <td className="popular-column">China & glassware</td>
-                  <td>Premium tableware</td>
+                  <td className="popular-column">Basic glassware</td>
+                  <td>Premium Glassware</td>
                 </tr>
                 <tr>
                   <th scope="row" className="feature-name">Service Staff</th>
@@ -85,43 +85,14 @@ const Catering = () => {
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="catering-features">
-        <div className="catering-container">
-          <h2>Why Choose Our Catering</h2>
-          <div className="features-grid">
-            <div className="feature-item">
-              <span className="feature-icon-large">👨‍🍳</span>
-              <h3>Expert Chefs</h3>
-              <p>Authentic German recipes prepared by experienced culinary professionals</p>
-            </div>
-            <div className="feature-item">
-              <span className="feature-icon-large">🍽️</span>
-              <h3>Flexible Options</h3>
-              <p>Customizable menus to suit dietary restrictions and preferences</p>
-            </div>
-            <div className="feature-item">
-              <span className="feature-icon-large">🚚</span>
-              <h3>Full Service</h3>
-              <p>Delivery, setup, service staff, and cleanup all included</p>
-            </div>
-            <div className="feature-item">
-              <span className="feature-icon-large">⭐</span>
-              <h3>Quality Guaranteed</h3>
-              <p>Fresh ingredients and impeccable presentation every time</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Contact Info Section */}
       <section className="catering-contact">
         <div className="catering-container">
-          <h2>Questions?</h2>
-          <p>Contact our catering team directly</p>
+          <h2>Custom Requests or Want to Cater?</h2>
+          <p style={{ fontSize: '1.3rem' }}>Contact our catering team directly</p>
           <div className="contact-details">
             <div className="contact-item">
-              <a href="mailto:catering@leckerhaus.com">catering@leckerhaus.com</a>
+              <span style={{ fontSize: '1.8rem', fontWeight: 'bold', color: '#ff6b1a' }}>catering@leckerhaus.com</span>
             </div>
           </div>
         </div>

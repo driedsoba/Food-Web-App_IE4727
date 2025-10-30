@@ -2,14 +2,14 @@ import './App.css'
 import Header from './components/header/Header'
 import Footer from './components/footer/Footer'
 import HomePage from './pages/HomePage'
-import Menu from './components/menu/Menu'
-import Catering from './components/catering/Catering'
-import LoginPage from './pages/Login'
+import Menu from './pages/Menu'
+import Catering from './pages/Catering'
+import Login from './pages/Login'
 import FeedbackPage from './pages/Feedback'
 import Cart from './pages/Cart'
 import Checkout from './pages/Checkout'
 import { AuthProvider } from './context/AuthContext'
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import PrivateRoute from './components/auth/PrivateRoute'
 import OrderStatus from "./pages/OrderStatus";
 
@@ -23,7 +23,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/menu" element={<Menu />} />
             <Route path="/catering" element={<Catering />} />
-            <Route path="/login" element={<LoginPage />} />
+            <Route path="/login" element={<Login />} />
             <Route path="/feedback" element={<FeedbackPage />} />
             <Route
               path="/cart"
@@ -49,7 +49,6 @@ function App() {
                 </PrivateRoute>
               }
             />
-            {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
           </Routes>
         </main>
         <Footer />

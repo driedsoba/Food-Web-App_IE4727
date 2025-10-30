@@ -1,0 +1,172 @@
+.catering-page {
+  min-height: 100vh;
+}
+
+.catering-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* Center the table section heading and subtitle */
+.catering-form-section .catering-container h2 {
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.catering-form-section .catering-container .section-subtitle {
+  text-align: center;
+  color: #444;
+  max-width: 720px;
+  margin: 0 auto 1.25rem;
+}
+
+/* Hero Section (subtle) */
+/* hero removed */
+
+/* Table */
+.catering-form-section {
+  padding: 4rem 0;
+  background-color: #f9f9f9;
+}
+
+.table-wrapper {
+  max-width: 1000px;
+  margin: 2rem auto;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow-x: auto;
+}
+
+.catering-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1rem;
+}
+
+
+.catering-table thead {
+  background-color: #ff6b1a;
+  color: white;
+}
+
+.catering-table th {
+  padding: 1rem 1.25rem;
+  text-align: left;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.catering-table td {
+  padding: 0.9rem 1.25rem;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.catering-table .feature-name {
+  font-weight: 600;
+  color: #333;
+}
+
+.catering-table tbody .popular-column {
+  /* body cells: keep text color and a soft tint */
+  background-color: #fff6f0;
+  font-weight: 700;
+  color: #ff6b1a;
+}
+
+/* Header should retain the header background; badge appears only there */
+.catering-table thead th.popular-column {
+  position: relative;
+  background-color: #ff6b1a;
+  /* same as other headers */
+  color: white;
+}
+
+.catering-table thead th.popular-column::after {
+  content: "Popular";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 0.9rem;
+  font-size: 0.85rem;
+  /* Differentiate the badge from the header background */
+  background: #e55a0e;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 14px;
+  font-weight: 700;
+  box-shadow: 0 6px 18px rgba(229, 90, 14, 0.18);
+  border: 2px solid rgba(255, 255, 255, 0.12);
+}
+
+/* Features */
+.catering-features {
+  padding: 4rem 0;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.feature-item {
+  text-align: center;
+  padding: 2rem;
+}
+
+.feature-icon-large {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* Contact */
+.catering-contact {
+  padding: 3rem 0;
+  text-align: center;
+}
+
+.contact-details {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  flex-wrap: wrap;
+}
+
+.contact-item a {
+  color: #ff6b1a;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+/* hero layout removed */
+
+@media (max-width: 768px) {
+  .table-wrapper {
+    margin: 1rem;
+  }
+
+  /* Move the badge to top-right on small screens so it doesn't overlap header text */
+  .catering-table thead th.popular-column::after {
+    top: 0.35rem;
+    transform: none;
+    right: 0.6rem;
+    font-size: 0.78rem;
+    padding: 3px 8px;
+  }
+}

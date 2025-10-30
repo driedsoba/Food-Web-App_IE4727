@@ -22,7 +22,7 @@ const Hero = () => {
   return (
     <section className="home-hero" id="home">
       <div className="home-hero__content">
-        <span className="home-badge"><span aria-hidden="true">🍕</span> Free Delivery on First Order</span>
+        <span className="home-badge">Free Delivery on First Order</span>
         <h1 className="home-hero__title">
           Delicious Food <span>Delivered Fast</span>
         </h1>
@@ -39,9 +39,9 @@ const Hero = () => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
-          <button 
-            type="button" 
-            className="btn-secondary" 
+          <button
+            type="button"
+            className="btn-secondary"
             onClick={() => {
               if (searchQuery.trim()) {
                 navigate(`/menu?search=${encodeURIComponent(searchQuery.trim())}`)

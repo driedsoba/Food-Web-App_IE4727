@@ -111,7 +111,6 @@ const Feedback = () => {
 
   return (
     <div className="feedback-page">
-      {/* Feedback Form Section */}
       <section className="feedback-form-section">
         <div className="feedback-icon">💬</div>
         <h1>We Value Your Feedback</h1>
@@ -199,14 +198,12 @@ const Feedback = () => {
             </div>
 
             <button type="submit" className="submit-button" disabled={loading}>
-              <span className="submit-icon">👍</span>
               {loading ? 'Submitting...' : 'Submit Feedback'}
             </button>
           </form>
         </div>
       </section>
 
-      {/* Customer Feedback Display Section */}
       <section className="feedback-display-section">
         <h2>What Our Customers Say</h2>
         {feedbacks.length > 0 ? (

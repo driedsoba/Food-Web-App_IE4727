@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { cartAPI } from '../services/api';
-import { createOrderFromCartItems } from '../services/orders';
+import { cartAPI, ordersAPI } from '../services/api';
 import { useAuth } from '../hooks/useAuth';
 import './Cart.css';
 
@@ -107,7 +106,7 @@ const Cart = () => {
       }));
 
       // Create the order with delivery information
-      const result = await createOrderFromCartItems({
+      const result = await ordersAPI.createOrder({
         items: orderItems,
         customer_name: deliveryInfo.customerName,
         customer_email: deliveryInfo.customerEmail,
@@ -221,7 +220,6 @@ const Cart = () => {
                 <span>${(calculateTotal() + 5.00).toFixed(2)}</span>
               </div>
 
-              {/* Delivery Information Form */}
               <div className="delivery-info-section">
                 <h3>Delivery Information</h3>
                 <div className="form-group">
