@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getCart } from "../services/cart";
-import { createOrderFromCartItems } from "../services/orders";
+import { cartAPI, ordersAPI } from "../services/api";
 
 export default function CheckoutPage() {
   const [items, setItems] = useState([]);
@@ -14,7 +13,7 @@ export default function CheckoutPage() {
     let mounted = true;
     (async () => {
       try {
-        const data = await getCart();
+        const data = await cartAPI.getCart();
         const cartItems = (data.items || []).map((it) => ({
           // Be tolerant of cart payload shapes
           menu_item_id: it.menu_item_id ?? it.id,
@@ -46,7 +45,7 @@ export default function CheckoutPage() {
         quantity,
         price,
       }));
-      const result = await createOrderFromCartItems(payload);
+      const result = await ordersAPI.createOrder(payload);
       if (result?.success) {
         navigate("/order-status", { replace: true });
       } else {

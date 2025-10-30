@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getOrders, advanceOrderStatus } from "../services/orders";
+import { ordersAPI } from "../services/api";
 import "./OrderStatus.css";
 
 export default function OrderStatusPage() {
@@ -13,7 +13,7 @@ export default function OrderStatusPage() {
     setError("");
     setLoading(true);
     try {
-      const data = await getOrders();
+      const data = await ordersAPI.getOrders();
       setOrders(data.orders || []);
     } catch (e) {
       setError(e.message || "Failed to load orders");
@@ -28,7 +28,7 @@ export default function OrderStatusPage() {
 
   const onAdvance = async (id) => {
     try {
-      await advanceOrderStatus(id);
+      await ordersAPI.advanceOrderStatus(id);
       await load();
     } catch (e) {
       setError(e.message || "Failed to advance status");
@@ -64,13 +64,13 @@ export default function OrderStatusPage() {
     <div className="order-status-page">
       <div className="order-status-container">
         <h1>Order Status</h1>
-        
+
         {error && (
           <div className="error-message" role="alert">
             {error}
           </div>
         )}
-        
+
         {orders.length === 0 ? (
           <div className="no-orders">
             <p>No orders yet.</p>
@@ -90,7 +90,7 @@ export default function OrderStatusPage() {
                     </small>
                   )}
                 </div>
-                
+
                 <div className="order-status">
                   <span className="status-label">Status:</span>
                   <span className={`status-value status-${order.status.toLowerCase().replace(/\s+/g, '-')}`}>
@@ -121,8 +121,8 @@ export default function OrderStatusPage() {
                 </div>
 
                 {!isDelivered(order.status) && (
-                  <button 
-                    onClick={() => onAdvance(order.id)} 
+                  <button
+                    onClick={() => onAdvance(order.id)}
                     className="advance-status-btn"
                   >
                     Advance to Next Status
