@@ -39,9 +39,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Hash password
     $hashed_password = password_hash($data->password, PASSWORD_DEFAULT);
     
-    // Insert new user
-    $query = "INSERT INTO users (username, email, password, full_name, phone) 
-              VALUES (:username, :email, :password, :full_name, :phone)";
+    // Insert new user (matching schema: username, email, password, full_name only)
+    $query = "INSERT INTO users (username, email, password, full_name) 
+              VALUES (:username, :email, :password, :full_name)";
     
     $stmt = $db->prepare($query);
     $stmt->bindParam(":username", $data->username);
@@ -49,10 +49,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->bindParam(":password", $hashed_password);
     
     $full_name = isset($data->full_name) ? $data->full_name : null;
-    $phone = isset($data->phone) ? $data->phone : null;
     
     $stmt->bindParam(":full_name", $full_name);
-    $stmt->bindParam(":phone", $phone);
     
     if ($stmt->execute()) {
         $user_id = $db->lastInsertId();

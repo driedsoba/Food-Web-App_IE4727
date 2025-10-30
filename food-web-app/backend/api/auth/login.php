@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
     
-    $query = "SELECT id, username, email, password, full_name, phone, address 
+    $query = "SELECT id, username, email, password, full_name 
               FROM users WHERE username = :username OR email = :username LIMIT 1";
     
     $stmt = $db->prepare($query);

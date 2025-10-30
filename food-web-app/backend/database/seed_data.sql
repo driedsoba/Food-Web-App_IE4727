@@ -128,7 +128,7 @@ VALUES
   (
     'testuser',
     'test@example.com',
-    'test123',
+    '$2y$10$jUIX.u4ncPl1vzcVSxIThu4Xr1lidxVzc51rBqodeYmbteFcgDk8y',
     'Test User'
   );
 
