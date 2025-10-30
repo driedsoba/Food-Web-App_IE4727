@@ -121,11 +121,6 @@ const Catering = () => {
           <p>Contact our catering team directly</p>
           <div className="contact-details">
             <div className="contact-item">
-              <span>📞</span>
-              <a href="tel:+15551234567">(555) 123-4567</a>
-            </div>
-            <div className="contact-item">
-              <span>✉️</span>
               <a href="mailto:catering@leckerhaus.com">catering@leckerhaus.com</a>
             </div>
           </div>

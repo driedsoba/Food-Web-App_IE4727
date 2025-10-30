@@ -4,12 +4,12 @@ function isJson(res) {
   return (res.headers.get("content-type") || "").includes("application/json");
 }
 
-export async function createOrderFromCartItems(items) {
+export async function createOrderFromCartItems(orderData) {
   const res = await fetch(`${API_BASE}/orders.php?action=create`, {
     method: "POST",
     credentials: "include",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ items }),
+    body: JSON.stringify(orderData),
   });
   if (!res.ok || !isJson(res)) {
     const text = await res.text().catch(() => "");
