@@ -10,7 +10,8 @@ const Menu = () => {
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
   const { isAuthenticated } = useContext(AuthContext)
-  const [searchTerm, setSearchTerm] = useState('')
+  const [searchInput, setSearchInput] = useState('') // What user types
+  const [searchTerm, setSearchTerm] = useState('') // What actually filters
   const [selectedCategory, setSelectedCategory] = useState('All')
   const [sortBy, setSortBy] = useState('name') // name, price-low, price-high, rating
   const [menuItems, setMenuItems] = useState([])
@@ -21,7 +22,8 @@ const Menu = () => {
   useEffect(() => {
     const query = searchParams.get('search')
     if (query) {
-      setSearchTerm(query)
+      setSearchInput(query)
+      setSearchTerm(query) // Apply filter immediately
     }
   }, [searchParams])
 
@@ -96,8 +98,13 @@ const Menu = () => {
           <input
             type="text"
             placeholder="Search dishes..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                setSearchTerm(searchInput)
+              }
+            }}
             className="search-input"
           />
         </div>
@@ -186,6 +193,7 @@ const Menu = () => {
               <button
                 className="reset-button"
                 onClick={() => {
+                  setSearchInput('')
                   setSearchTerm('')
                   setSelectedCategory('All')
                 }}
