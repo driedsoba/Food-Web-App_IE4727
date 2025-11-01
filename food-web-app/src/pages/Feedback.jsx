@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../hooks/useAuth';
-import { feedbackAPI } from '../services/api';
+import { feedbackAPI, ordersAPI } from '../services/api';
 import './Feedback.css';
 
 const Feedback = () => {
@@ -13,6 +13,7 @@ const Feedback = () => {
     feedback: ''
   });
   const [feedbacks, setFeedbacks] = useState([]);
+  const [userOrders, setUserOrders] = useState([]);
   const [hoveredRating, setHoveredRating] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -25,8 +26,20 @@ const Feedback = () => {
         name: user.full_name || user.username || '',
         email: user.email || ''
       }));
+      // Fetch user's orders for the dropdown
+      fetchUserOrders();
     }
   }, [isAuthenticated, user]);
+
+  // Fetch user's orders
+  const fetchUserOrders = async () => {
+    try {
+      const response = await ordersAPI.getOrders();
+      setUserOrders(response.orders || []);
+    } catch (err) {
+      console.error('Error fetching user orders:', err);
+    }
+  };
 
   // Fetch feedbacks on component mount
   useEffect(() => {
@@ -172,15 +185,33 @@ const Feedback = () => {
 
             <div className="form-group">
               <label htmlFor="orderNumber">Order Number (Optional)</label>
-              <input
-                type="text"
-                id="orderNumber"
-                name="orderNumber"
-                value={formData.orderNumber}
-                onChange={handleInputChange}
-                placeholder="#12345"
-                disabled={loading}
-              />
+              {isAuthenticated && userOrders.length > 0 ? (
+                <select
+                  id="orderNumber"
+                  name="orderNumber"
+                  value={formData.orderNumber}
+                  onChange={handleInputChange}
+                  disabled={loading}
+                  className="order-select"
+                >
+                  <option value="">Select an order (optional)</option>
+                  {userOrders.map((order) => (
+                    <option key={order.id} value={order.id}>
+                      Order #{order.id} - ${Number(order.total_amount).toFixed(2)} ({new Date(order.created_at).toLocaleDateString()})
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <input
+                  type="text"
+                  id="orderNumber"
+                  name="orderNumber"
+                  value={formData.orderNumber}
+                  onChange={handleInputChange}
+                  placeholder="#12345"
+                  disabled={loading}
+                />
+              )}
             </div>
 
             <div className="form-group">

@@ -272,10 +272,35 @@
   transition: border-color 0.3s ease;
 }
 
+.delivery-info-section input.error,
+.delivery-info-section textarea.error {
+  border-color: #d32f2f;
+}
+
 .delivery-info-section input:focus,
 .delivery-info-section textarea:focus {
   outline: none;
   border-color: #ff6b1a;
+}
+
+.delivery-info-section input.error:focus,
+.delivery-info-section textarea.error:focus {
+  border-color: #d32f2f;
+}
+
+.delivery-info-section .error-message {
+  display: block;
+  color: #d32f2f;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+  padding: 0;
+}
+
+.delivery-info-section .input-hint {
+  display: block;
+  color: #666;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
 }
 
 .delivery-info-section textarea {

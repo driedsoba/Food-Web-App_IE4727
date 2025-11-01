@@ -17,6 +17,7 @@ const Cart = () => {
     customerPhone: '',
     deliveryAddress: ''
   });
+  const [validationErrors, setValidationErrors] = useState({});
 
   useEffect(() => {
     fetchCart();
@@ -40,6 +41,57 @@ const Cart = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  // Validation functions
+  const validateAddress = (address) => {
+    if (!address || address.trim().length < 10) {
+      return "Address must be at least 10 characters";
+    }
+    return "";
+  };
+
+  const validatePhoneNumber = (phone) => {
+    // Remove any whitespace
+    const cleanPhone = phone.replace(/\s/g, "");
+    
+    // Check if exactly 8 digits
+    if (!/^\d{8}$/.test(cleanPhone)) {
+      return "Phone number must be exactly 8 digits (e.g., 88469676)";
+    }
+    return "";
+  };
+
+  const validateEmail = (email) => {
+    if (!email || !email.trim()) {
+      return "Email is required";
+    }
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return "Please enter a valid email address";
+    }
+    return "";
+  };
+
+  const validateForm = () => {
+    const errors = {};
+    
+    if (!deliveryInfo.customerName.trim()) {
+      errors.customerName = "Name is required";
+    }
+    
+    const emailError = validateEmail(deliveryInfo.customerEmail);
+    if (emailError) errors.customerEmail = emailError;
+    
+    const phoneError = validatePhoneNumber(deliveryInfo.customerPhone);
+    if (phoneError) errors.customerPhone = phoneError;
+    
+    const addressError = validateAddress(deliveryInfo.deliveryAddress);
+    if (addressError) errors.deliveryAddress = addressError;
+    
+    setValidationErrors(errors);
+    return Object.keys(errors).length === 0;
   };
 
   const calculateTotal = () => {
@@ -78,22 +130,9 @@ const Cart = () => {
       return;
     }
 
-    // Validate delivery information
-    if (!deliveryInfo.customerName.trim()) {
-      alert('Please enter your name');
-      return;
-    }
-    if (!deliveryInfo.customerEmail.trim()) {
-      alert('Please enter your email');
-      return;
-    }
-    if (!deliveryInfo.customerPhone.trim()) {
-      alert('Please enter your phone number');
-      return;
-    }
-    if (!deliveryInfo.deliveryAddress.trim()) {
-      alert('Please enter your delivery address');
-      return;
+    // Validate delivery information with detailed checks
+    if (!validateForm()) {
+      return; // Validation errors will be displayed in the form
     }
 
     setPlacingOrder(true);
@@ -228,10 +267,19 @@ const Cart = () => {
                     type="text"
                     id="customerName"
                     value={deliveryInfo.customerName}
-                    onChange={(e) => setDeliveryInfo({ ...deliveryInfo, customerName: e.target.value })}
+                    onChange={(e) => {
+                      setDeliveryInfo({ ...deliveryInfo, customerName: e.target.value });
+                      if (validationErrors.customerName) {
+                        setValidationErrors({ ...validationErrors, customerName: "" });
+                      }
+                    }}
                     placeholder="John Doe"
+                    className={validationErrors.customerName ? 'error' : ''}
                     required
                   />
+                  {validationErrors.customerName && (
+                    <span className="error-message">{validationErrors.customerName}</span>
+                  )}
                 </div>
                 <div className="form-group">
                   <label htmlFor="customerEmail">Email *</label>
@@ -239,10 +287,19 @@ const Cart = () => {
                     type="email"
                     id="customerEmail"
                     value={deliveryInfo.customerEmail}
-                    onChange={(e) => setDeliveryInfo({ ...deliveryInfo, customerEmail: e.target.value })}
+                    onChange={(e) => {
+                      setDeliveryInfo({ ...deliveryInfo, customerEmail: e.target.value });
+                      if (validationErrors.customerEmail) {
+                        setValidationErrors({ ...validationErrors, customerEmail: "" });
+                      }
+                    }}
                     placeholder="john@example.com"
+                    className={validationErrors.customerEmail ? 'error' : ''}
                     required
                   />
+                  {validationErrors.customerEmail && (
+                    <span className="error-message">{validationErrors.customerEmail}</span>
+                  )}
                 </div>
                 <div className="form-group">
                   <label htmlFor="customerPhone">Phone Number *</label>
@@ -250,21 +307,42 @@ const Cart = () => {
                     type="tel"
                     id="customerPhone"
                     value={deliveryInfo.customerPhone}
-                    onChange={(e) => setDeliveryInfo({ ...deliveryInfo, customerPhone: e.target.value })}
-                    placeholder="+65 1234 5678"
+                    onChange={(e) => {
+                      setDeliveryInfo({ ...deliveryInfo, customerPhone: e.target.value });
+                      if (validationErrors.customerPhone) {
+                        setValidationErrors({ ...validationErrors, customerPhone: "" });
+                      }
+                    }}
+                    placeholder="88469676"
+                    maxLength={8}
+                    className={validationErrors.customerPhone ? 'error' : ''}
                     required
                   />
+                  {validationErrors.customerPhone && (
+                    <span className="error-message">{validationErrors.customerPhone}</span>
+                  )}
+                  <small className="input-hint">Must be exactly 8 digits</small>
                 </div>
                 <div className="form-group">
                   <label htmlFor="deliveryAddress">Delivery Address *</label>
                   <textarea
                     id="deliveryAddress"
                     value={deliveryInfo.deliveryAddress}
-                    onChange={(e) => setDeliveryInfo({ ...deliveryInfo, deliveryAddress: e.target.value })}
+                    onChange={(e) => {
+                      setDeliveryInfo({ ...deliveryInfo, deliveryAddress: e.target.value });
+                      if (validationErrors.deliveryAddress) {
+                        setValidationErrors({ ...validationErrors, deliveryAddress: "" });
+                      }
+                    }}
                     placeholder="123 Main St, #01-23, Singapore 123456"
                     rows="3"
+                    className={validationErrors.deliveryAddress ? 'error' : ''}
                     required
                   />
+                  {validationErrors.deliveryAddress && (
+                    <span className="error-message">{validationErrors.deliveryAddress}</span>
+                  )}
+                  <small className="input-hint">Minimum 10 characters</small>
                 </div>
               </div>
 

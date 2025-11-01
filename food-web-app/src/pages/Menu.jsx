@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect, useContext, useRef } from 'react'
 import { useSearchParams, useNavigate } from 'react-router-dom'
 import { menuAPI, cartAPI } from '../services/api'
 import { AuthContext } from '../context/AuthContext'
@@ -10,22 +10,33 @@ const Menu = () => {
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
   const { isAuthenticated } = useContext(AuthContext)
-  const [searchInput, setSearchInput] = useState('') // What user types
-  const [searchTerm, setSearchTerm] = useState('') // What actually filters
+  const initialized = useRef(false)
+
+  // Initialize search from URL params
+  const urlSearch = searchParams.get('search') || ''
+
+  const [searchInput, setSearchInput] = useState(urlSearch) // What user types
+  const [searchTerm, setSearchTerm] = useState(urlSearch) // What actually filters
   const [selectedCategory, setSelectedCategory] = useState('All')
   const [sortBy, setSortBy] = useState('name') // name, price-low, price-high, rating
   const [menuItems, setMenuItems] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
-  // Set search term from URL params on mount
+  // Only set search from URL on first mount
   useEffect(() => {
-    const query = searchParams.get('search')
-    if (query) {
-      setSearchInput(query)
-      setSearchTerm(query) // Apply filter immediately
+    if (!initialized.current) {
+      const query = searchParams.get('search')
+      console.log('Initial URL search param:', query) // Debug log
+      if (query) {
+        setSearchInput(query)
+        setSearchTerm(query)
+        console.log('Initial search term set to:', query) // Debug log
+      }
+      initialized.current = true
     }
-  }, [searchParams])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   // Fetch menu items from API
   useEffect(() => {
@@ -43,6 +54,8 @@ const Menu = () => {
           filters.search = searchTerm
         }
 
+        console.log('Fetching menu with filters:', filters) // Debug log
+
         // Map sortBy to API format
         if (sortBy === 'price-low' || sortBy === 'price-high') {
           filters.sortBy = 'price'
@@ -53,6 +66,7 @@ const Menu = () => {
         }
 
         const data = await menuAPI.getItems(filters)
+        console.log('Received menu items:', data.length) // Debug log
         setMenuItems(data)
       } catch (err) {
         setError(err.message || 'Failed to load menu items')
