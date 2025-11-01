@@ -2,10 +2,17 @@
 session_start();
 include_once 'config/database.php';
 
+// Get the referrer or default to localhost:5173
+$referer = $_SERVER['HTTP_REFERER'] ?? 'http://localhost:5173';
+$base_url = parse_url($referer, PHP_URL_SCHEME) . '://' . parse_url($referer, PHP_URL_HOST);
+if (parse_url($referer, PHP_URL_PORT)) {
+    $base_url .= ':' . parse_url($referer, PHP_URL_PORT);
+}
+
 // Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
     // Redirect to login page with error message
-    header('Location: http://localhost:5174/login?error=Please+log+in+to+view+your+order+history');
+    header('Location: ' . $base_url . '/login?error=Please+log+in+to+view+your+order+history');
     exit();
 }
 
@@ -316,14 +323,14 @@ foreach ($results as $row) {
 
         <div class="user-info">
             <span>Logged in as: <strong><?php echo htmlspecialchars($username); ?></strong></span>
-            <a href="http://localhost:5174" class="back-link">← Back to Restaurant</a>
+            <a href="<?php echo $base_url; ?>" class="back-link">← Back to Restaurant</a>
         </div>
 
         <?php if (empty($orders)): ?>
             <div class="no-orders">
                 <h2>No Orders Yet</h2>
                 <p>You haven't placed any orders yet. Start exploring our delicious menu!</p>
-                <a href="http://localhost:5174/menu" class="btn">Browse Menu</a>
+                <a href="<?php echo $base_url; ?>/menu" class="btn">Browse Menu</a>
             </div>
         <?php else: ?>
             <?php foreach ($orders as $order): ?>
