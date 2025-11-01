@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeckerHaus - Authentic German Cuisine</title>
+    <link rel="stylesheet" href="css/base.css?v=2.0">
+    <link rel="stylesheet" href="css/home.css?v=2.0">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <h1>LeckerHaus</h1>
+            </div>
+            <nav class="navigation">
+                <ul>
+                    <li><a href="index.html" class="active">Home</a></li>
+                    <li><a href="menu.html">Menu</a></li>
+                    <li><a href="catering.html">Catering</a></li>
+                    <li><a href="order-history.html">Order History</a></li>
+                    <li><a href="feedback.html">Feedback</a></li>
+                </ul>
+            </nav>
+            <div class="cart-section">
+                <!-- User greeting will be shown if logged in -->
+                <span class="user-greeting" style="display:none;">Hello, User!</span>
+                <button class="logout-button" style="display:none;">Logout</button>
+                <a href="login.html" class="login-button">
+                    <span class="login-text">Login</span>
+                </a>
+                <a href="cart.html" class="cart-button">
+                    <span class="cart-text">Cart</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="home-hero">
+        <div class="home-hero__content">
+            <div class="home-badge">
+                <span>🇩🇪</span>
+                <span>Authentic German Cuisine</span>
+            </div>
+            <h1 class="home-hero__title">
+                Experience the taste of
+                <span>Germany at home</span>
+            </h1>
+            <p class="home-hero__subtitle">
+                Discover authentic German dishes crafted with traditional recipes and fresh ingredients. 
+                From bratwurst to schnitzel, enjoy the flavors of Deutschland delivered to your door.
+            </p>
+            
+            <form class="home-search" action="menu.html" method="GET">
+                <span class="home-search__icon">🔍</span>
+                <input type="text" name="search" placeholder="Search for dishes..." />
+                <button type="submit">Search</button>
+            </form>
+
+            <dl class="home-hero__stats">
+                <div class="home-stat">
+                    <dt>Happy Customers</dt>
+                    <dd>5,000+</dd>
+                </div>
+                <div class="home-stat">
+                    <dt>Dishes Served</dt>
+                    <dd>50,000+</dd>
+                </div>
+                <div class="home-stat">
+                    <dt>Average Rating</dt>
+                    <dd>4.8⭐</dd>
+                </div>
+            </dl>
+        </div>
+        <div class="home-hero__media">
+            <div class="home-hero__image-wrapper">
+                <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80" 
+                     alt="Delicious German food" 
+                     class="home-hero__image">
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="home-section home-section--features">
+        <div class="home-section__header">
+            <span class="home-eyebrow">Why Choose Us</span>
+            <h2>Quality you can taste</h2>
+            <p>We're committed to bringing you the most authentic German dining experience</p>
+        </div>
+        <div class="home-features">
+            <article class="home-feature-card">
+                <div class="home-feature-card__icon">🥨</div>
+                <h3>Authentic Recipes</h3>
+                <p>Traditional German recipes passed down through generations, prepared with care and expertise.</p>
+            </article>
+            <article class="home-feature-card">
+                <div class="home-feature-card__icon">🌱</div>
+                <h3>Fresh Ingredients</h3>
+                <p>We source the finest local ingredients and import specialty items directly from Germany.</p>
+            </article>
+            <article class="home-feature-card">
+                <div class="home-feature-card__icon">🚚</div>
+                <h3>Fast Delivery</h3>
+                <p>Hot, delicious meals delivered to your door within 30-45 minutes of ordering.</p>
+            </article>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <p>&copy; 2024 LeckerHaus. All rights reserved.</p>
+            <p>Authentic German Cuisine | Delivered Fresh Daily</p>
+        </div>
+    </footer>
+
+    <script src="js/auth.js"></script>
+</body>
+</html>

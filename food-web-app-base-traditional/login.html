@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - LeckerHaus</title>
+    <link rel="stylesheet" href="css/base.css?v=2.0">
+    <link rel="stylesheet" href="css/login.css?v=2.0">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <h1>LeckerHaus</h1>
+            </div>
+            <nav class="navigation">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="menu.html">Menu</a></li>
+                    <li><a href="catering.html">Catering</a></li>
+                    <li><a href="order-history.html">Order History</a></li>
+                    <li><a href="feedback.html">Feedback</a></li>
+                </ul>
+            </nav>
+            <div class="cart-section">
+                <a href="login.html" class="login-button">
+                    <span class="login-text">Login</span>
+                </a>
+                <a href="cart.html" class="cart-button">
+                    <span class="cart-text">Cart</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Login Page -->
+    <div class="login-page">
+        <div class="login-container">
+            <div class="login-header">
+                <h1 id="formTitle">Login</h1>
+                <p id="formSubtitle">Welcome back!</p>
+            </div>
+
+            <form id="authForm" class="login-form" method="POST" action="backend/process-login.php">
+                <div id="errorMessage" class="error-message" style="display: none;"></div>
+
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        required
+                        placeholder="Enter your username"
+                    />
+                </div>
+
+                <div class="form-group" id="emailGroup" style="display: none;">
+                    <label for="email">Email</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="Enter your email"
+                    />
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        required
+                        placeholder="Enter your password"
+                        minlength="8"
+                    />
+                </div>
+
+                <div class="form-group" id="confirmPasswordGroup" style="display: none;">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input
+                        type="password"
+                        id="confirmPassword"
+                        name="confirm_password"
+                        placeholder="Confirm your password"
+                        minlength="8"
+                    />
+                </div>
+
+                <input type="hidden" name="action" id="formAction" value="login">
+
+                <button type="submit" class="submit-button">
+                    <span id="submitText">Login</span>
+                </button>
+            </form>
+
+            <div class="login-footer">
+                <p>
+                    <span id="toggleText">Don't have an account?</span>
+                    <button type="button" id="toggleButton" class="toggle-button">
+                        Register
+                    </button>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <p>&copy; 2024 LeckerHaus. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Toggle between login and register
+        let isLogin = true;
+        const toggleButton = document.getElementById('toggleButton');
+        const formTitle = document.getElementById('formTitle');
+        const formSubtitle = document.getElementById('formSubtitle');
+        const toggleText = document.getElementById('toggleText');
+        const submitText = document.getElementById('submitText');
+        const formAction = document.getElementById('formAction');
+        const emailGroup = document.getElementById('emailGroup');
+        const confirmPasswordGroup = document.getElementById('confirmPasswordGroup');
+        const emailInput = document.getElementById('email');
+        const confirmPasswordInput = document.getElementById('confirmPassword');
+        const errorMessage = document.getElementById('errorMessage');
+
+        toggleButton.addEventListener('click', function() {
+            isLogin = !isLogin;
+
+            if (isLogin) {
+                // Switch to login mode
+                formTitle.textContent = 'Login';
+                formSubtitle.textContent = 'Welcome back!';
+                toggleText.textContent = "Don't have an account?";
+                toggleButton.textContent = 'Register';
+                submitText.textContent = 'Login';
+                formAction.value = 'login';
+                emailGroup.style.display = 'none';
+                confirmPasswordGroup.style.display = 'none';
+                emailInput.removeAttribute('required');
+                confirmPasswordInput.removeAttribute('required');
+            } else {
+                // Switch to register mode
+                formTitle.textContent = 'Register';
+                formSubtitle.textContent = 'Create your account';
+                toggleText.textContent = 'Already have an account?';
+                toggleButton.textContent = 'Login';
+                submitText.textContent = 'Register';
+                formAction.value = 'register';
+                emailGroup.style.display = 'flex';
+                confirmPasswordGroup.style.display = 'flex';
+                emailInput.setAttribute('required', 'required');
+                confirmPasswordInput.setAttribute('required', 'required');
+            }
+
+            // Clear error message
+            errorMessage.style.display = 'none';
+        });
+
+        // Show error from URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const error = urlParams.get('error');
+        if (error) {
+            errorMessage.textContent = decodeURIComponent(error);
+            errorMessage.style.display = 'block';
+        }
+
+        // Validate form on submit
+        document.getElementById('authForm').addEventListener('submit', function(e) {
+            errorMessage.style.display = 'none';
+            
+            if (!isLogin) {
+                // Register validation
+                const password = document.getElementById('password').value;
+                const confirmPassword = document.getElementById('confirmPassword').value;
+                
+                if (password !== confirmPassword) {
+                    e.preventDefault();
+                    errorMessage.textContent = 'Passwords do not match';
+                    errorMessage.style.display = 'block';
+                    return false;
+                }
+
+                if (password.length < 8) {
+                    e.preventDefault();
+                    errorMessage.textContent = 'Password must be at least 8 characters long';
+                    errorMessage.style.display = 'block';
+                    return false;
+                }
+            }
+        });
+    </script>
+</body>
+</html>

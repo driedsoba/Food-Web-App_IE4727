@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu - LeckerHaus</title>
+    <link rel="stylesheet" href="css/base.css?v=2.0">
+    <link rel="stylesheet" href="css/menu.css?v=2.0">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <h1>LeckerHaus</h1>
+            </div>
+            <nav class="navigation">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="menu.html" class="active">Menu</a></li>
+                    <li><a href="catering.html">Catering</a></li>
+                    <li><a href="order-history.html">Order History</a></li>
+                    <li><a href="feedback.html">Feedback</a></li>
+                </ul>
+            </nav>
+            <div class="cart-section">
+                <span class="user-greeting" style="display:none;">Hello, User!</span>
+                <button class="logout-button" style="display:none;">Logout</button>
+                <a href="login.html" class="login-button">
+                    <span class="login-text">Login</span>
+                </a>
+                <a href="cart.html" class="cart-button">
+                    <span class="cart-text">Cart</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Menu Page -->
+    <div class="menu-page">
+        <div class="menu-header">
+            <h1>Our Menu</h1>
+            <p>Authentic German cuisine, made fresh daily</p>
+        </div>
+
+        <div class="menu-controls">
+            <div class="search-box">
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Search dishes..."
+                    class="search-input"
+                />
+            </div>
+
+            <div class="filter-group">
+                <label for="sort-select">Sort by:</label>
+                <select id="sort-select" class="sort-select">
+                    <option value="name">Name</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                    <option value="rating">Rating</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="category-tabs">
+            <button class="category-tab active" data-category="All">All</button>
+            <button class="category-tab" data-category="Mains">Mains</button>
+            <button class="category-tab" data-category="Starters">Starters</button>
+            <button class="category-tab" data-category="Sides">Sides</button>
+            <button class="category-tab" data-category="Desserts">Desserts</button>
+        </div>
+
+        <div class="loading-state" id="loadingState" style="display: none;">
+            <p>Loading menu items...</p>
+        </div>
+
+        <div class="error-state" id="errorState" style="display: none;">
+            <p id="errorText"></p>
+            <button class="retry-button" onclick="location.reload()">Retry</button>
+        </div>
+
+        <div class="results-info" id="resultsInfo">
+            Showing <span id="itemCount">0</span> dishes
+        </div>
+
+        <div class="menu-grid" id="menuGrid">
+            <!-- Menu items will be loaded here by PHP/JavaScript -->
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <p>&copy; 2024 LeckerHaus. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/auth.js"></script>
+    <script>
+        // Menu data and filtering
+        let allMenuItems = [];
+        let filteredItems = [];
+        let currentCategory = 'All';
+        let currentSort = 'name';
+        let searchTerm = '';
+
+        // Load menu items
+        async function loadMenuItems() {
+            const loadingState = document.getElementById('loadingState');
+            const errorState = document.getElementById('errorState');
+            const menuGrid = document.getElementById('menuGrid');
+
+            try {
+                loadingState.style.display = 'block';
+                errorState.style.display = 'none';
+
+                const response = await fetch('backend/api/get-menu-items.php');
+                if (!response.ok) throw new Error('Failed to load menu');
+                
+                allMenuItems = await response.json();
+                filteredItems = [...allMenuItems];
+                
+                loadingState.style.display = 'none';
+                applyFilters();
+            } catch (error) {
+                loadingState.style.display = 'none';
+                errorState.style.display = 'block';
+                document.getElementById('errorText').textContent = 'Error: ' + error.message;
+            }
+        }
+
+        // Apply filters and sorting
+        function applyFilters() {
+            // Filter by category
+            filteredItems = currentCategory === 'All' 
+                ? [...allMenuItems]
+                : allMenuItems.filter(item => item.category === currentCategory);
+
+            // Filter by search
+            if (searchTerm) {
+                filteredItems = filteredItems.filter(item =>
+                    item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    item.description.toLowerCase().includes(searchTerm.toLowerCase())
+                );
+            }
+
+            // Sort items
+            filteredItems.sort((a, b) => {
+                switch (currentSort) {
+                    case 'name':
+                        return a.name.localeCompare(b.name);
+                    case 'price-low':
+                        return parseFloat(a.price) - parseFloat(b.price);
+                    case 'price-high':
+                        return parseFloat(b.price) - parseFloat(a.price);
+                    case 'rating':
+                        return parseFloat(b.rating) - parseFloat(a.rating);
+                    default:
+                        return 0;
+                }
+            });
+
+            renderMenuItems();
+        }
+
+        // Render menu items
+        function renderMenuItems() {
+            const menuGrid = document.getElementById('menuGrid');
+            const itemCount = document.getElementById('itemCount');
+            
+            itemCount.textContent = filteredItems.length;
+
+            if (filteredItems.length === 0) {
+                menuGrid.innerHTML = `
+                    <div class="no-results">
+                        <p>No dishes found matching your search.</p>
+                        <button class="reset-button" onclick="resetFilters()">Reset Filters</button>
+                    </div>
+                `;
+                return;
+            }
+
+            menuGrid.innerHTML = filteredItems.map(item => `
+                <article class="menu-card">
+                    <div class="menu-card__media">
+                        <img src="${item.image_url}" alt="${item.name}" loading="lazy">
+                        <span class="menu-card__rating">
+                            <span aria-hidden="true">⭐</span>
+                            ${parseFloat(item.rating).toFixed(1)}
+                        </span>
+                    </div>
+                    <div class="menu-card__content">
+                        <span class="menu-card__category">${item.category}</span>
+                        <h3>${item.name}</h3>
+                        <p class="menu-card__description">${item.description}</p>
+                        <div class="menu-card__meta">
+                            <strong>$${parseFloat(item.price).toFixed(2)}</strong>
+                        </div>
+                        <button class="menu-card__button" type="button" onclick="addToCart(${item.id})">
+                            <span aria-hidden="true">＋</span> Add to Cart
+                        </button>
+                    </div>
+                </article>
+            `).join('');
+        }
+
+        // Add to cart
+        async function addToCart(itemId) {
+            // Check if logged in
+            const isLoggedIn = sessionStorage.getItem('user');
+            if (!isLoggedIn) {
+                if (confirm('Please login to add items to cart. Would you like to go to the login page?')) {
+                    window.location.href = 'login.html';
+                }
+                return;
+            }
+
+            try {
+                const response = await fetch('backend/api/add-to-cart.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ item_id: itemId, quantity: 1 })
+                });
+                
+                if (response.ok) {
+                    alert('Item added to cart!');
+                } else {
+                    alert('Failed to add item to cart');
+                }
+            } catch (error) {
+                alert('Error: ' + error.message);
+            }
+        }
+
+        // Reset filters
+        function resetFilters() {
+            currentCategory = 'All';
+            searchTerm = '';
+            currentSort = 'name';
+            document.getElementById('searchInput').value = '';
+            document.getElementById('sort-select').value = 'name';
+            document.querySelectorAll('.category-tab').forEach(tab => {
+                tab.classList.toggle('active', tab.dataset.category === 'All');
+            });
+            applyFilters();
+        }
+
+        // Event listeners
+        document.querySelectorAll('.category-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                currentCategory = this.dataset.category;
+                applyFilters();
+            });
+        });
+
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            searchTerm = e.target.value;
+            applyFilters();
+        });
+
+        document.getElementById('sort-select').addEventListener('change', function(e) {
+            currentSort = e.target.value;
+            applyFilters();
+        });
+
+        // Check for search parameter in URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const searchParam = urlParams.get('search');
+        if (searchParam) {
+            document.getElementById('searchInput').value = searchParam;
+            searchTerm = searchParam;
+        }
+
+        // Load menu on page load
+        loadMenuItems();
+    </script>
+</body>
+</html>
