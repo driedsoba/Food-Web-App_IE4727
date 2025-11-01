@@ -12,6 +12,7 @@ import { AuthProvider } from './context/AuthContext'
 import { Routes, Route } from 'react-router-dom'
 import PrivateRoute from './components/auth/PrivateRoute'
 import OrderStatus from "./pages/OrderStatus";
+import OrderConfirmation from "./pages/OrderConfirmation";
 
 function App() {
   return (
@@ -38,6 +39,14 @@ function App() {
               element={
                 <PrivateRoute>
                   <Checkout />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/order-confirmation"
+              element={
+                <PrivateRoute>
+                  <OrderConfirmation />
                 </PrivateRoute>
               }
             />

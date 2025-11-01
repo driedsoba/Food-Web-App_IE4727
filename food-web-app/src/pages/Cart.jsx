@@ -54,10 +54,10 @@ const Cart = () => {
   const validatePhoneNumber = (phone) => {
     // Remove any whitespace
     const cleanPhone = phone.replace(/\s/g, "");
-    
+
     // Check if exactly 8 digits
     if (!/^\d{8}$/.test(cleanPhone)) {
-      return "Phone number must be exactly 8 digits (e.g., 88469676)";
+      return "Phone number must be exactly 8 digits (e.g., 67489380)";
     }
     return "";
   };
@@ -76,20 +76,20 @@ const Cart = () => {
 
   const validateForm = () => {
     const errors = {};
-    
+
     if (!deliveryInfo.customerName.trim()) {
       errors.customerName = "Name is required";
     }
-    
+
     const emailError = validateEmail(deliveryInfo.customerEmail);
     if (emailError) errors.customerEmail = emailError;
-    
+
     const phoneError = validatePhoneNumber(deliveryInfo.customerPhone);
     if (phoneError) errors.customerPhone = phoneError;
-    
+
     const addressError = validateAddress(deliveryInfo.deliveryAddress);
     if (addressError) errors.deliveryAddress = addressError;
-    
+
     setValidationErrors(errors);
     return Object.keys(errors).length === 0;
   };
@@ -157,8 +157,10 @@ const Cart = () => {
         // Clear the cart after successful order
         await cartAPI.clearCart();
 
-        // Navigate to order status page
-        navigate('/order-status');
+        // Navigate to order confirmation page with order ID
+        navigate('/order-confirmation', {
+          state: { orderId: result.order?.id || result.order_id || result.orderId }
+        });
       } else {
         throw new Error(result.error || 'Failed to create order');
       }
@@ -313,7 +315,7 @@ const Cart = () => {
                         setValidationErrors({ ...validationErrors, customerPhone: "" });
                       }
                     }}
-                    placeholder="88469676"
+                    placeholder="67489380"
                     maxLength={8}
                     className={validationErrors.customerPhone ? 'error' : ''}
                     required

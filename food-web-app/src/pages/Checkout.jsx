@@ -53,7 +53,7 @@ export default function CheckoutPage() {
     
     // Check if exactly 8 digits
     if (!/^\d{8}$/.test(cleanPhone)) {
-      return "Phone number must be exactly 8 digits (e.g., 88469676)";
+      return "Phone number must be exactly 8 digits (e.g., 67489380)";
     }
     return "";
   };
@@ -177,7 +177,7 @@ export default function CheckoutPage() {
                     setValidationErrors({ ...validationErrors, phoneNumber: "" });
                   }
                 }}
-                placeholder="e.g., 88469676"
+                placeholder="e.g., 67489380"
                 maxLength={8}
                 style={{
                   width: "100%",
