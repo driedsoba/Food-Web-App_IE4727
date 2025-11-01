@@ -98,7 +98,7 @@ const HomePage = () => {
         <div className="home-hero__media">
           <div className="home-hero__image-wrapper">
             <img
-              alt="Selection of German dishes"
+              alt="Plate of Tomato Pasta"
               className="home-hero__image"
               src="https://images.unsplash.com/photo-1528738064262-9f834cbdfda1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkZWxpY2lvdXMlMjBmb29kJTIwcGxhdGV8ZW58MXx8fHwxNzU5NzIzOTk4fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
             />

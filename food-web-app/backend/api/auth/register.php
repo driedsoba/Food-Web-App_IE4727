@@ -23,6 +23,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
     
+    // Validate password strength
+    if (strlen($data->password) < 8) {
+        http_response_code(400);
+        echo json_encode(["error" => "Password must be at least 8 characters long"]);
+        exit();
+    }
+    
+    // Password must contain at least one letter
+    if (!preg_match('/[a-zA-Z]/', $data->password)) {
+        http_response_code(400);
+        echo json_encode(["error" => "Password must contain at least one letter"]);
+        exit();
+    }
+    
+    // Password must contain at least one number
+    if (!preg_match('/[0-9]/', $data->password)) {
+        http_response_code(400);
+        echo json_encode(["error" => "Password must contain at least one number"]);
+        exit();
+    }
+    
+    // Password must contain at least one special character
+    if (!preg_match('/[!@#$%^&*(),.?":{}|<>]/', $data->password)) {
+        http_response_code(400);
+        echo json_encode(["error" => "Password must contain at least one special character (!@#$%^&*(),.?\":{}|<>)"]);
+        exit();
+    }
+    
     // Check if username or email already exists
     $check_query = "SELECT id FROM users WHERE username = :username OR email = :email";
     $check_stmt = $db->prepare($check_query);
