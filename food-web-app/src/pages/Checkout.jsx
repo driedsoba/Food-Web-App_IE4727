@@ -50,7 +50,7 @@ export default function CheckoutPage() {
   const validatePhoneNumber = (phone) => {
     // Remove any whitespace
     const cleanPhone = phone.replace(/\s/g, "");
-    
+
     // Check if exactly 8 digits
     if (!/^\d{8}$/.test(cleanPhone)) {
       return "Phone number must be exactly 8 digits (e.g., 67489380)";
@@ -60,13 +60,13 @@ export default function CheckoutPage() {
 
   const validateForm = () => {
     const errors = {};
-    
+
     const addressError = validateAddress(address);
     if (addressError) errors.address = addressError;
-    
+
     const phoneError = validatePhoneNumber(phoneNumber);
     if (phoneError) errors.phoneNumber = phoneError;
-    
+
     setValidationErrors(errors);
     return Object.keys(errors).length === 0;
   };
@@ -104,7 +104,7 @@ export default function CheckoutPage() {
   return (
     <div style={{ padding: 24 }}>
       <h1>Checkout</h1>
-      
+
       {error && (
         <div role="alert" style={{ padding: 12, marginBottom: 16, color: "#b00020", backgroundColor: "#fdecea", borderRadius: 4 }}>
           {error}
@@ -199,8 +199,8 @@ export default function CheckoutPage() {
             </div>
           </div>
 
-          <button 
-            onClick={onPlaceOrder} 
+          <button
+            onClick={onPlaceOrder}
             disabled={submitting}
             style={{
               padding: "12px 24px",
