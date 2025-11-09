@@ -93,24 +93,27 @@ body {
 }
 
 .logout-button {
-  background-color: transparent;
-  color: rgb(0, 0, 0);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  background-color: white;
+  color: #333;
+  border: 2px solid #ff6b1a;
 }
 
 .logout-button:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: #fff5f0;
+  border-color: #e55a0e;
 }
 
 .login-button {
   background-color: white;
-  color: #18181b;
+  color: #333;
+  border: 2px solid #ff6b1a;
   display: inline-flex;
   align-items: center;
 }
 
 .login-button:hover {
-  background-color: #f0f0f0;
+  background-color: #fff5f0;
+  border-color: #e55a0e;
 }
 
 .cart-button {
