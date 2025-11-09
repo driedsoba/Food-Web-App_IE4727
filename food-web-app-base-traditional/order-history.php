@@ -100,9 +100,7 @@ if ($isLoggedIn) {
             <div class="cart-section">
                 <?php if ($isLoggedIn): ?>
                     <span class="user-greeting">Hello, <?php echo htmlspecialchars($username); ?>!</span>
-                    <form action="backend/logout.html" method="POST" style="display: inline;">
-                        <button type="submit" class="logout-button">Logout</button>
-                    </form>
+                    <button class="logout-button" onclick="window.location.href='backend/process-login.php?action=logout'">Logout</button>
                 <?php else: ?>
                     <a href="login.html" class="login-button">
                         <span class="login-text">Login</span>
