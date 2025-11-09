@@ -15,7 +15,7 @@ $userName = $isLoggedIn ? ($_SESSION['username'] ?? 'User') : '';
     <?php if (isset($additionalCSS)): ?>
         <link rel="stylesheet" href="<?php echo SITE_URL; ?>/css/<?php echo $additionalCSS; ?>">
     <?php endif; ?>
-    <!-- Session data available for JavaScript without AJAX -->
+    <!-- Session data available for JavaScript -->
     <script>
         window.SESSION_DATA = {
             isAuthenticated: <?php echo $isLoggedIn ? 'true' : 'false'; ?>,

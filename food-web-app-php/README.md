@@ -1,12 +1,12 @@
-# Food Web App - No AJAX Version
+# Food Web App - PHP Version
 
-A traditional PHP web application for food ordering **without using JSON or AJAX**. This version uses form submissions and page reloads instead of asynchronous requests.
+A traditional PHP web application for food ordering. This version uses form submissions and page reloads for all interactions.
 
 ## ⚠️ Important: File Naming Convention
 
 This folder mirrors the **food-web-app-base-traditional** structure but converts `.html` files to `.php` files:
 
-| Traditional Folder | No-AJAX Folder | Description |
+| Traditional Folder | PHP Folder | Description |
 |-------------------|----------------|-------------|
 | `index.html` | `index.php` | Home page |
 | `menu.html` | `menu.php` | Menu browsing |
@@ -28,13 +28,13 @@ This folder mirrors the **food-web-app-base-traditional** structure but converts
 - ✅ Order history viewing
 - ✅ Feedback submission
 - ✅ Catering inquiry form
-- ✅ Session data passed to JavaScript via inline scripts (no AJAX)
+- ✅ Session data passed to JavaScript via inline scripts
 
 ## Key Differences from Traditional Version
 
-| Aspect | Traditional (.html) | No-AJAX (.php) |
+| Aspect | Traditional (.html) | PHP (.php) |
 |--------|-------------------|----------------|
-| **Data fetching** | AJAX/Fetch API + JSON | Form submissions + page reloads |
+| **Data fetching** | Fetch API + JSON | Form submissions + page reloads |
 | **Cart updates** | Async API calls | Form POST + redirect |
 | **Search** | Client-side JS filtering | Server-side PHP query |
 | **Login/Register** | Toggle UI with JS | Same page, different URL params |
@@ -42,7 +42,7 @@ This folder mirrors the **food-web-app-base-traditional** structure but converts
 | **Error handling** | JSON responses | URL query parameters |
 | **User feedback** | Dynamic DOM updates | Page reload with messages |
 
-## How It Works (No AJAX)
+## How It Works
 
 ### 1. Session Data Access
 ```php
@@ -73,7 +73,7 @@ $action = $_GET['action'] ?? 'login';
 
 1. Import database: `mysql -u root -p < database/schema.sql`
 2. Edit `includes/config.php` with your database credentials
-3. Access: `http://localhost/food-web-app-no-ajax/`
+3. Access: `http://localhost/food-web-app-php/`
 
 ## License
 
