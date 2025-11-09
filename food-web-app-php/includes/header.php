@@ -4,6 +4,9 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 $isLoggedIn = isset($_SESSION['user_id']);
 $userName = $isLoggedIn ? ($_SESSION['username'] ?? 'User') : '';
+
+// Get current page for active menu highlighting
+$currentPage = basename($_SERVER['PHP_SELF']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -32,11 +35,11 @@ $userName = $isLoggedIn ? ($_SESSION['username'] ?? 'User') : '';
             </div>
             <nav class="navigation">
                 <ul>
-                    <li><a href="<?php echo SITE_URL; ?>/index.php">Home</a></li>
-                    <li><a href="<?php echo SITE_URL; ?>/menu.php">Menu</a></li>
-                    <li><a href="<?php echo SITE_URL; ?>/catering.php">Catering</a></li>
-                    <li><a href="<?php echo SITE_URL; ?>/order-history.php">Order History</a></li>
-                    <li><a href="<?php echo SITE_URL; ?>/feedback.php">Feedback</a></li>
+                    <li><a href="<?php echo SITE_URL; ?>/index.php" class="<?php echo $currentPage === 'index.php' ? 'active' : ''; ?>">Home</a></li>
+                    <li><a href="<?php echo SITE_URL; ?>/menu.php" class="<?php echo $currentPage === 'menu.php' ? 'active' : ''; ?>">Menu</a></li>
+                    <li><a href="<?php echo SITE_URL; ?>/catering.php" class="<?php echo $currentPage === 'catering.php' ? 'active' : ''; ?>">Catering</a></li>
+                    <li><a href="<?php echo SITE_URL; ?>/order-history.php" class="<?php echo $currentPage === 'order-history.php' ? 'active' : ''; ?>">Order History</a></li>
+                    <li><a href="<?php echo SITE_URL; ?>/feedback.php" class="<?php echo $currentPage === 'feedback.php' ? 'active' : ''; ?>">Feedback</a></li>
                 </ul>
             </nav>
             <div class="cart-section">
