@@ -12,7 +12,6 @@ include 'includes/header.php';
 <section class="home-hero">
     <div class="home-hero__content">
         <div class="home-badge">
-            <span>🇩🇪</span>
             <span>Free Delivery on First Order</span>
         </div>
         <h1 class="home-hero__title">

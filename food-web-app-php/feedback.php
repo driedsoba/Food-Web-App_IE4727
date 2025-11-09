@@ -23,6 +23,17 @@ $success = $_SESSION['feedback_success'] ?? '';
 $error = $_SESSION['feedback_error'] ?? '';
 unset($_SESSION['feedback_success'], $_SESSION['feedback_error']);
 
+// Fetch approved feedbacks
+$feedbacks = [];
+$feedback_query = "SELECT id, name, rating, feedback, created_at 
+                   FROM feedbacks 
+                   WHERE approved = 1 
+                   ORDER BY created_at DESC";
+$feedback_result = $conn->query($feedback_query);
+if ($feedback_result) {
+    $feedbacks = $feedback_result->fetch_all(MYSQLI_ASSOC);
+}
+
 include 'includes/header.php';
 ?>
 
@@ -36,13 +47,13 @@ include 'includes/header.php';
     <div class="content-container">
         <section class="feedback-form-section">
             <?php if ($success): ?>
-                <div class="form-message" style="display:block;margin-bottom:16px;padding:12px;border-radius:4px;background:#d4edda;color:#155724;">
+                <div class="alert alert-success" style="text-align: center;">
                     <?php echo htmlspecialchars($success); ?>
                 </div>
             <?php endif; ?>
             
             <?php if ($error): ?>
-                <div class="form-message" style="display:block;margin-bottom:16px;padding:12px;border-radius:4px;background:#f8d7da;color:#721c24;">
+                <div class="alert alert-error" style="text-align: center;">
                     <?php echo htmlspecialchars($error); ?>
                 </div>
             <?php endif; ?>
@@ -117,6 +128,37 @@ include 'includes/header.php';
             </div>
         </section>
     </div>
+
+    <!-- Display Approved Feedbacks -->
+    <section class="feedback-display-section">
+        <h2>What Our Customers Say</h2>
+        <?php if (count($feedbacks) > 0): ?>
+            <div class="feedbacks-list">
+                <?php foreach ($feedbacks as $feedback): ?>
+                    <div class="feedback-card">
+                        <div class="feedback-header">
+                            <div class="feedback-author">
+                                <h3><?php echo htmlspecialchars($feedback['name']); ?></h3>
+                                <div class="feedback-rating">
+                                    <?php for ($i = 1; $i <= 5; $i++): ?>
+                                        <span class="star <?php echo $i <= $feedback['rating'] ? 'filled' : ''; ?>">★</span>
+                                    <?php endfor; ?>
+                                </div>
+                            </div>
+                            <span class="feedback-date">
+                                <?php echo date('M d, Y', strtotime($feedback['created_at'])); ?>
+                            </span>
+                        </div>
+                        <p class="feedback-text"><?php echo htmlspecialchars($feedback['feedback']); ?></p>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php else: ?>
+            <p style="text-align: center; color: #666; padding: 40px;">
+                No feedbacks yet. Be the first to share your experience!
+            </p>
+        <?php endif; ?>
+    </section>
 </div>
 
 <?php

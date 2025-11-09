@@ -2,7 +2,8 @@
     <footer class="footer">
         <div class="footer-container">
             <p>&copy; <?php echo date('Y'); ?> LeckerHaus. All rights reserved.</p>
-            <p>Authentic German Cuisine | Delivered Fresh Daily</p>
+            <p>General Enquiries: info@leckerhaus.com | Phone: +65 6748 9380</p>
+            <p>Address: 50 Nanyang Ave, Singapore 639798</p>
         </div>
     </footer>
     <?php if (isset($additionalJS)): ?>

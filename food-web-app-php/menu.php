@@ -134,22 +134,12 @@ include 'includes/header.php';
                         <p class="description"><?php echo htmlspecialchars($item['description']); ?></p>
                         <div class="menu-item-details">
                             <span class="price">$<?php echo number_format($item['price'], 2); ?></span>
-                            <span class="time">⏱️ <?php echo htmlspecialchars($item['time']); ?></span>
-                            <span class="rating">⭐ <?php echo number_format($item['rating'], 1); ?></span>
                         </div>
                         
                         <?php if (isset($_SESSION['user_id'])): ?>
                             <form method="POST" action="backend/process-add-to-cart.php" class="add-to-cart-form">
                                 <input type="hidden" name="menu_item_id" value="<?php echo $item['id']; ?>">
-                                <div class="quantity-group">
-                                    <label for="qty-<?php echo $item['id']; ?>">Quantity:</label>
-                                    <input type="number" 
-                                           id="qty-<?php echo $item['id']; ?>" 
-                                           name="quantity" 
-                                           value="1" 
-                                           min="1" 
-                                           max="99">
-                                </div>
+                                <input type="hidden" name="quantity" value="1">
                                 <button type="submit" class="btn btn-primary">Add to Cart</button>
                             </form>
                         <?php else: ?>

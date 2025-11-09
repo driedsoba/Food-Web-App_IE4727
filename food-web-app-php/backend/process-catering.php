@@ -29,6 +29,21 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     exit;
 }
 
+// Validate phone number (exactly 8 digits)
+$clean_phone = preg_replace('/\s/', '', $phone);
+if (!preg_match('/^\d{8}$/', $clean_phone)) {
+    $_SESSION['catering_error'] = 'Phone number must be exactly 8 digits (e.g., 67489380)';
+    header('Location: ../catering.php');
+    exit;
+}
+
+// Validate guest count is a positive number
+if (!is_numeric($guest_count) || $guest_count <= 0) {
+    $_SESSION['catering_error'] = 'Guest count must be a positive number';
+    header('Location: ../catering.php');
+    exit;
+}
+
 // Prepare email (in real application, use PHPMailer or similar)
 $to = 'catering@foodwebapp.com'; // Replace with actual email
 $subject = 'Catering Request from ' . $name;

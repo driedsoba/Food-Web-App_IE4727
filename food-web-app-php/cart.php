@@ -114,7 +114,7 @@ include 'includes/header.php';
                     </div>
                 </div>
 
-                <form method="POST" action="backend/process-checkout.php" class="checkout-form" id="checkoutForm">
+                <form method="POST" action="backend/process-checkout.php" class="checkout-form">
                     <h3>Delivery Information</h3>
                     
                     <div class="form-group">
@@ -124,20 +124,22 @@ include 'includes/header.php';
 
                     <div class="form-group">
                         <label for="customerEmail">Email *</label>
-                        <input type="email" id="customerEmail" name="customer_email" required>
+                        <input type="email" id="customerEmail" name="customer_email" value="<?php echo htmlspecialchars($_SESSION['email'] ?? ''); ?>" required>
                     </div>
 
                     <div class="form-group">
                         <label for="customerPhone">Phone Number *</label>
-                        <input type="tel" id="customerPhone" name="customer_phone" required>
+                        <input type="tel" id="customerPhone" name="customer_phone" placeholder="e.g., 67489380" maxlength="8" required>
+                        <small class="form-hint">Must be exactly 8 digits</small>
                     </div>
 
                     <div class="form-group">
                         <label for="deliveryAddress">Delivery Address *</label>
-                        <textarea id="deliveryAddress" name="delivery_address" rows="3" required></textarea>
+                        <textarea id="deliveryAddress" name="delivery_address" rows="3" placeholder="Enter your full delivery address" required></textarea>
+                        <small class="form-hint">Minimum 10 characters</small>
                     </div>
 
-                    <button type="submit" class="btn-primary" id="placeOrderBtn">Place Order</button>
+                    <button type="submit" class="btn-primary">Place Order</button>
                 </form>
             </div>
         </div>

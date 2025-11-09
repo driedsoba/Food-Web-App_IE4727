@@ -32,8 +32,26 @@ if ($action === 'register') {
         exit;
     }
 
-    if (strlen($password) < 6) {
-        header('Location: ../login.php?action=register&error=' . urlencode('Password must be at least 6 characters'));
+    if (strlen($password) < 8) {
+        header('Location: ../login.php?action=register&error=' . urlencode('Password must be at least 8 characters'));
+        exit;
+    }
+
+    // Password must contain at least one letter
+    if (!preg_match('/[a-zA-Z]/', $password)) {
+        header('Location: ../login.php?action=register&error=' . urlencode('Password must contain at least one letter'));
+        exit;
+    }
+
+    // Password must contain at least one number
+    if (!preg_match('/[0-9]/', $password)) {
+        header('Location: ../login.php?action=register&error=' . urlencode('Password must contain at least one number'));
+        exit;
+    }
+
+    // Password must contain at least one special character
+    if (!preg_match('/[!@#$%^&*(),.?":{}|<>]/', $password)) {
+        header('Location: ../login.php?action=register&error=' . urlencode('Password must contain at least one special character (!@#$%^&*(),.?":{}|<>)'));
         exit;
     }
 

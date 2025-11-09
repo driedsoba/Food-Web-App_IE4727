@@ -19,6 +19,28 @@ if (empty($customer_name) || empty($customer_email) || empty($customer_phone) ||
     exit;
 }
 
+// Validate email format
+if (!filter_var($customer_email, FILTER_VALIDATE_EMAIL)) {
+    $_SESSION['checkout_error'] = 'Invalid email format';
+    header('Location: ../checkout.php');
+    exit;
+}
+
+// Validate address length (minimum 10 characters)
+if (strlen($delivery_address) < 10) {
+    $_SESSION['checkout_error'] = 'Address must be at least 10 characters';
+    header('Location: ../checkout.php');
+    exit;
+}
+
+// Validate phone number (exactly 8 digits)
+$clean_phone = preg_replace('/\s/', '', $customer_phone);
+if (!preg_match('/^\d{8}$/', $clean_phone)) {
+    $_SESSION['checkout_error'] = 'Phone number must be exactly 8 digits (e.g., 67489380)';
+    header('Location: ../checkout.php');
+    exit;
+}
+
 $user_id = $_SESSION['user_id'] ?? null;
 
 // Get cart items if logged in
