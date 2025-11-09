@@ -61,8 +61,8 @@ const HomePage = () => {
             Delicious Food <span>Delivered Fast</span>
           </h1>
           <p className="home-hero__subtitle">
-            Order from your favorite restaurants and get fresh, hot meals delivered right to your doorstep. Quick, easy,
-            and satisfying!
+            Discover authentic German dishes crafted with traditional recipes and fresh ingredients. 
+            From bratwurst to schnitzel, enjoy the flavors of Deutschland delivered to your door.
           </p>
           <form className="home-search" role="search" onSubmit={handleSearch}>
             <input

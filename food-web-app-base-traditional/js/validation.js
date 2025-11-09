@@ -1,5 +1,3 @@
-// Client-side validation only (NO AJAX, NO JSON)
-
 // Validate email format
 function isValidEmail(email) {
     var re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

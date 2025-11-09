@@ -30,7 +30,7 @@ function handleLogin($conn) {
     
     // Validation
     if (empty($username) || empty($password)) {
-        header('Location: ../login.html?error=' . urlencode('Please fill in all fields'));
+        header('Location: ../login.html?action=login&error=' . urlencode('Please fill in all fields'));
         exit;
     }
     
@@ -46,7 +46,7 @@ function handleLogin($conn) {
     $result = $stmt->get_result();
     
     if ($result->num_rows === 0) {
-        header('Location: ../login.html?error=' . urlencode('Invalid username or password'));
+        header('Location: ../login.html?action=login&error=' . urlencode('Invalid username or password'));
         exit;
     }
     
@@ -54,7 +54,7 @@ function handleLogin($conn) {
     
     // Verify password
     if (!password_verify($password, $user['password'])) {
-        header('Location: ../login.html?error=' . urlencode('Invalid username or password'));
+        header('Location: ../login.html?action=login&error=' . urlencode('Invalid username or password'));
         exit;
     }
     
@@ -75,27 +75,27 @@ function handleRegister($conn) {
     
     // Validation
     if (empty($username) || empty($email) || empty($password) || empty($confirmPassword)) {
-        header('Location: ../login.html?error=' . urlencode('Please fill in all fields'));
+        header('Location: ../login.html?action=register&error=' . urlencode('Please fill in all fields'));
         exit;
     }
     
     if (strlen($username) < 3) {
-        header('Location: ../login.html?error=' . urlencode('Username must be at least 3 characters'));
+        header('Location: ../login.html?action=register&error=' . urlencode('Username must be at least 3 characters'));
         exit;
     }
     
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        header('Location: ../login.html?error=' . urlencode('Invalid email format'));
+        header('Location: ../login.html?action=register&error=' . urlencode('Invalid email format'));
         exit;
     }
     
     if (strlen($password) < 8) {
-        header('Location: ../login.html?error=' . urlencode('Password must be at least 8 characters'));
+        header('Location: ../login.html?action=register&error=' . urlencode('Password must be at least 8 characters'));
         exit;
     }
     
     if ($password !== $confirmPassword) {
-        header('Location: ../login.html?error=' . urlencode('Passwords do not match'));
+        header('Location: ../login.html?action=register&error=' . urlencode('Passwords do not match'));
         exit;
     }
     
@@ -107,7 +107,7 @@ function handleRegister($conn) {
     $result = $stmt->get_result();
     
     if ($result->num_rows > 0) {
-        header('Location: ../login.html?error=' . urlencode('Username already taken'));
+        header('Location: ../login.html?action=register&error=' . urlencode('Username already taken'));
         exit;
     }
     
@@ -119,7 +119,7 @@ function handleRegister($conn) {
     $result = $stmt->get_result();
     
     if ($result->num_rows > 0) {
-        header('Location: ../login.html?error=' . urlencode('Email already registered'));
+        header('Location: ../login.html?action=register&error=' . urlencode('Email already registered'));
         exit;
     }
     
@@ -142,7 +142,7 @@ function handleRegister($conn) {
         header('Location: ../menu.html');
         exit;
     } else {
-        header('Location: ../login.html?error=' . urlencode('Registration failed. Please try again.'));
+        header('Location: ../login.html?action=register&error=' . urlencode('Registration failed. Please try again.'));
         exit;
     }
 }

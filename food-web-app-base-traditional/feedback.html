@@ -19,7 +19,7 @@
                     <li><a href="index.html">Home</a></li>
                     <li><a href="menu.html">Menu</a></li>
                     <li><a href="catering.html">Catering</a></li>
-                    <li><a href="order-history.html">Order History</a></li>
+                    <li><a href="order-history.php">Order History</a></li>
                     <li><a href="feedback.html" class="active">Feedback</a></li>
                 </ul>
             </nav>
@@ -45,6 +45,7 @@
 
         <div class="content-container">
             <section class="feedback-form-section">
+                <div id="formMessage" class="form-message" style="display:none;margin-bottom:16px;padding:12px;border-radius:4px;"></div>
                 <h2>Share Your Experience</h2>
                 <form id="feedbackForm" class="feedback-form" method="POST" action="backend/process-feedback.php" onsubmit="return validateFeedbackForm(this);">
                     <div class="form-group">
@@ -103,6 +104,47 @@
 
     <script src="js/auth.js"></script>
     <script src="js/validation.js"></script>
+    <script>
+        // Read message from query params and show above the form
+        (function showMessageFromQuery() {
+            try {
+                const params = new URLSearchParams(window.location.search);
+                if (!params) return;
+
+                const msg = params.get('msg');
+                const success = params.has('success');
+                const error = params.has('error');
+                if (!msg || (!success && !error)) {
+                    // nothing to show
+                    // clean URL if only msg absent
+                    if (params.toString()) history.replaceState(null, '', window.location.pathname);
+                    return;
+                }
+
+                const container = document.getElementById('formMessage');
+                if (!container) return;
+
+                // sanitize by using textContent
+                container.textContent = msg;
+                if (success) {
+                    container.style.display = 'block';
+                    container.style.backgroundColor = '#e6ffed';
+                    container.style.border = '1px solid #29a745';
+                    container.style.color = '#135e2a';
+                } else {
+                    container.style.display = 'block';
+                    container.style.backgroundColor = '#fff3f2';
+                    container.style.border = '1px solid #e5534b';
+                    container.style.color = '#6b1b0f';
+                }
+
+                // remove query params so message doesn't reappear on refresh
+                history.replaceState(null, '', window.location.pathname + window.location.hash);
+            } catch (e) {
+                console.error('Error showing form message:', e);
+            }
+        })();
+    </script>
     <script>
         // Load approved testimonials
         async function loadTestimonials() {

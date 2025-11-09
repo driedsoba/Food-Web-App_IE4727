@@ -30,6 +30,39 @@ if (empty($input['customer_name']) || empty($input['customer_email']) ||
     exit;
 }
 
+// Validate name (at least 2 characters)
+$customerName = trim($input['customer_name']);
+if (strlen($customerName) < 2) {
+    http_response_code(400);
+    echo json_encode(['error' => 'Name must be at least 2 characters']);
+    exit;
+}
+
+// Validate email format
+$customerEmail = trim($input['customer_email']);
+if (!filter_var($customerEmail, FILTER_VALIDATE_EMAIL)) {
+    http_response_code(400);
+    echo json_encode(['error' => 'Invalid email format']);
+    exit;
+}
+
+// Validate phone (exactly 8 digits)
+$customerPhone = trim($input['customer_phone']);
+$cleanPhone = preg_replace('/\D/', '', $customerPhone);
+if (!preg_match('/^\d{8}$/', $cleanPhone)) {
+    http_response_code(400);
+    echo json_encode(['error' => 'Phone number must be exactly 8 digits']);
+    exit;
+}
+
+// Validate address (at least 10 characters)
+$deliveryAddress = trim($input['delivery_address']);
+if (strlen($deliveryAddress) < 10) {
+    http_response_code(400);
+    echo json_encode(['error' => 'Address must be at least 10 characters']);
+    exit;
+}
+
 // Calculate total
 $subtotal = 0;
 foreach ($input['items'] as $item) {
@@ -49,10 +82,10 @@ try {
     
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('issssd', $userId, 
-                     $input['customer_name'],
-                     $input['customer_email'],
-                     $input['customer_phone'],
-                     $input['delivery_address'],
+                     $customerName,
+                     $customerEmail,
+                     $customerPhone,
+                     $deliveryAddress,
                      $total);
     $stmt->execute();
     

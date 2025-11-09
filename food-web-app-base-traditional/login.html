@@ -19,7 +19,7 @@
                     <li><a href="index.html">Home</a></li>
                     <li><a href="menu.html">Menu</a></li>
                     <li><a href="catering.html">Catering</a></li>
-                    <li><a href="order-history.html">Order History</a></li>
+                    <li><a href="order-history.php">Order History</a></li>
                     <li><a href="feedback.html">Feedback</a></li>
                 </ul>
             </nav>
@@ -129,45 +129,72 @@
         const confirmPasswordInput = document.getElementById('confirmPassword');
         const errorMessage = document.getElementById('errorMessage');
 
+        function switchToLogin() {
+            isLogin = true;
+            formTitle.textContent = 'Login';
+            formSubtitle.textContent = 'Welcome back!';
+            toggleText.textContent = "Don't have an account?";
+            toggleButton.textContent = 'Register';
+            submitText.textContent = 'Login';
+            formAction.value = 'login';
+            emailGroup.style.display = 'none';
+            confirmPasswordGroup.style.display = 'none';
+            emailInput.removeAttribute('required');
+            confirmPasswordInput.removeAttribute('required');
+        }
+
+        function switchToRegister() {
+            isLogin = false;
+            formTitle.textContent = 'Register';
+            formSubtitle.textContent = 'Create your account';
+            toggleText.textContent = 'Already have an account?';
+            toggleButton.textContent = 'Login';
+            submitText.textContent = 'Register';
+            formAction.value = 'register';
+            emailGroup.style.display = 'flex';
+            confirmPasswordGroup.style.display = 'flex';
+            emailInput.setAttribute('required', 'required');
+            confirmPasswordInput.setAttribute('required', 'required');
+        }
+
         toggleButton.addEventListener('click', function() {
-            isLogin = !isLogin;
-
             if (isLogin) {
-                // Switch to login mode
-                formTitle.textContent = 'Login';
-                formSubtitle.textContent = 'Welcome back!';
-                toggleText.textContent = "Don't have an account?";
-                toggleButton.textContent = 'Register';
-                submitText.textContent = 'Login';
-                formAction.value = 'login';
-                emailGroup.style.display = 'none';
-                confirmPasswordGroup.style.display = 'none';
-                emailInput.removeAttribute('required');
-                confirmPasswordInput.removeAttribute('required');
+                switchToRegister();
             } else {
-                // Switch to register mode
-                formTitle.textContent = 'Register';
-                formSubtitle.textContent = 'Create your account';
-                toggleText.textContent = 'Already have an account?';
-                toggleButton.textContent = 'Login';
-                submitText.textContent = 'Register';
-                formAction.value = 'register';
-                emailGroup.style.display = 'flex';
-                confirmPasswordGroup.style.display = 'flex';
-                emailInput.setAttribute('required', 'required');
-                confirmPasswordInput.setAttribute('required', 'required');
+                switchToLogin();
             }
-
             // Clear error message
             errorMessage.style.display = 'none';
         });
 
-        // Show error from URL parameter
+        // Check URL parameters for error and action
         const urlParams = new URLSearchParams(window.location.search);
         const error = urlParams.get('error');
+        const action = urlParams.get('action');
+
+        // If there's an error and it's from registration, show register form
         if (error) {
             errorMessage.textContent = decodeURIComponent(error);
             errorMessage.style.display = 'block';
+
+            // Check if error is related to registration
+            const registerErrors = [
+                'Please fill in all fields',
+                'Username must be at least 3 characters',
+                'Invalid email format',
+                'Password must be at least 8 characters',
+                'Passwords do not match',
+                'Username already taken',
+                'Email already registered',
+                'Registration failed'
+            ];
+
+            const errorText = decodeURIComponent(error);
+            const isRegisterError = registerErrors.some(regError => errorText.includes(regError));
+
+            if (isRegisterError || action === 'register') {
+                switchToRegister();
+            }
         }
 
         // Validate form on submit

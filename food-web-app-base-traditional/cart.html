@@ -19,7 +19,7 @@
                     <li><a href="index.html">Home</a></li>
                     <li><a href="menu.html">Menu</a></li>
                     <li><a href="catering.html">Catering</a></li>
-                    <li><a href="order-history.html">Order History</a></li>
+                    <li><a href="order-history.php">Order History</a></li>
                     <li><a href="feedback.html">Feedback</a></li>
                 </ul>
             </nav>
@@ -258,15 +258,94 @@
             }
         }
 
+        // Validate name
+        function validateName(name) {
+            if (!name || name.trim().length < 2) {
+                return "Name must be at least 2 characters";
+            }
+            return null; // Valid
+        }
+
+        // Validate email
+        function validateEmail(email) {
+            if (!email || email.trim() === '') {
+                return "Email is required";
+            }
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                return "Please enter a valid email address";
+            }
+            return null; // Valid
+        }
+
+        // Validate phone number (exactly 8 digits)
+        function validatePhone(phone) {
+            if (!phone || phone.trim() === '') {
+                return "Phone number is required";
+            }
+            
+            // Remove all non-digit characters
+            const cleanPhone = phone.replace(/\D/g, '');
+            
+            // Check if exactly 8 digits
+            if (!/^\d{8}$/.test(cleanPhone)) {
+                return "Phone number must be exactly 8 digits (e.g., 67489380)";
+            }
+            
+            return null; // Valid
+        }
+
+        // Validate address (minimum 10 characters)
+        function validateAddress(addr) {
+            if (!addr || addr.trim().length < 10) {
+                return "Address must be at least 10 characters";
+            }
+            return null; // Valid
+        }
+
         // Handle checkout
         document.getElementById('checkoutForm').addEventListener('submit', async function(e) {
             e.preventDefault();
 
+            const customerName = document.getElementById('customerName').value;
+            const customerEmail = document.getElementById('customerEmail').value;
+            const customerPhone = document.getElementById('customerPhone').value;
+            const deliveryAddress = document.getElementById('deliveryAddress').value;
+
+            // Validate all fields
+            const nameError = validateName(customerName);
+            if (nameError) {
+                alert(nameError);
+                document.getElementById('customerName').focus();
+                return;
+            }
+
+            const emailError = validateEmail(customerEmail);
+            if (emailError) {
+                alert(emailError);
+                document.getElementById('customerEmail').focus();
+                return;
+            }
+
+            const phoneError = validatePhone(customerPhone);
+            if (phoneError) {
+                alert(phoneError);
+                document.getElementById('customerPhone').focus();
+                return;
+            }
+
+            const addressError = validateAddress(deliveryAddress);
+            if (addressError) {
+                alert(addressError);
+                document.getElementById('deliveryAddress').focus();
+                return;
+            }
+
             const formData = {
-                customer_name: document.getElementById('customerName').value,
-                customer_email: document.getElementById('customerEmail').value,
-                customer_phone: document.getElementById('customerPhone').value,
-                delivery_address: document.getElementById('deliveryAddress').value,
+                customer_name: customerName.trim(),
+                customer_email: customerEmail.trim(),
+                customer_phone: customerPhone.trim(),
+                delivery_address: deliveryAddress.trim(),
                 items: cartItems.map(item => ({
                     menu_item_id: item.menu_item_id,
                     quantity: item.quantity,
