@@ -85,15 +85,21 @@ include 'includes/header.php';
             <?php endif; ?>
         </form>
 
-        <div class="filter-group">
+        <form method="GET" action="menu.php" class="filter-group">
             <label for="sort-select">Sort by:</label>
-            <select id="sort-select" class="sort-select" onchange="this.form.submit()">
+            <select id="sort-select" name="sort" class="sort-select" onchange="this.form.submit()">
                 <option value="name" <?php echo $sort === 'name' ? 'selected' : ''; ?>>Name</option>
                 <option value="price-low" <?php echo $sort === 'price-low' ? 'selected' : ''; ?>>Price: Low to High</option>
                 <option value="price-high" <?php echo $sort === 'price-high' ? 'selected' : ''; ?>>Price: High to Low</option>
                 <option value="rating" <?php echo $sort === 'rating' ? 'selected' : ''; ?>>Rating</option>
             </select>
-        </div>
+            <?php if ($search): ?>
+                <input type="hidden" name="search" value="<?php echo htmlspecialchars($search); ?>">
+            <?php endif; ?>
+            <?php if ($category): ?>
+                <input type="hidden" name="category" value="<?php echo htmlspecialchars($category); ?>">
+            <?php endif; ?>
+        </form>
     </div>
 
     <div class="category-tabs">
