@@ -296,6 +296,19 @@
     margin-top: 1rem;
 }
 
+.form-group.error input,
+.form-group.error textarea {
+    border-color: #dc3545;
+    background-color: #fff5f5;
+}
+
+.form-hint {
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 0.875rem;
+    color: #666;
+}
+
 /* Responsive */
 @media (max-width: 968px) {
     .cart-content {

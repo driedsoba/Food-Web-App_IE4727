@@ -146,6 +146,73 @@ include 'includes/header.php';
     <?php endif; ?>
 </div>
 
+<script>
+// Checkout form validation
+document.addEventListener('DOMContentLoaded', function() {
+    const checkoutForm = document.querySelector('form[action*="process-checkout"]');
+    
+    if (checkoutForm) {
+        checkoutForm.addEventListener('submit', function(e) {
+            const phone = document.getElementById('customerPhone').value.trim();
+            const address = document.getElementById('deliveryAddress').value.trim();
+            const email = document.getElementById('customerEmail').value.trim();
+            const name = document.getElementById('customerName').value.trim();
+            
+            // Clear any previous error styling
+            document.querySelectorAll('.form-group').forEach(group => {
+                group.classList.remove('error');
+            });
+            
+            let errors = [];
+            
+            // Validate name
+            if (!name || name.length < 2) {
+                errors.push('Please enter a valid full name');
+                document.getElementById('customerName').closest('.form-group').classList.add('error');
+            }
+            
+            // Validate email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!email || !emailRegex.test(email)) {
+                errors.push('Please enter a valid email address');
+                document.getElementById('customerEmail').closest('.form-group').classList.add('error');
+            }
+            
+            // Validate phone (exactly 8 digits)
+            const cleanPhone = phone.replace(/\s/g, '');
+            if (!/^\d{8}$/.test(cleanPhone)) {
+                errors.push('Phone number must be exactly 8 digits (e.g., 67489380)');
+                document.getElementById('customerPhone').closest('.form-group').classList.add('error');
+            }
+            
+            // Validate address (minimum 10 characters)
+            if (address.length < 10) {
+                errors.push('Delivery address must be at least 10 characters');
+                document.getElementById('deliveryAddress').closest('.form-group').classList.add('error');
+            }
+            
+            if (errors.length > 0) {
+                e.preventDefault();
+                alert('Please fix the following errors:\n\n' + errors.join('\n'));
+                return false;
+            }
+        });
+        
+        // Real-time phone validation
+        const phoneInput = document.getElementById('customerPhone');
+        phoneInput.addEventListener('input', function() {
+            // Remove non-digit characters
+            this.value = this.value.replace(/\D/g, '');
+            
+            // Limit to 8 digits
+            if (this.value.length > 8) {
+                this.value = this.value.slice(0, 8);
+            }
+        });
+    }
+});
+</script>
+
 <?php
 $conn->close();
 include 'includes/footer.php';
