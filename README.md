@@ -3,8 +3,8 @@
 A restaurant ordering system built with two implementations: Traditional PHP and Modern React.
 
 **Choose Your Version:**
-- [Traditional PHP Version →](./food-web-app-php/README.md) - Server-side rendering with form submissions
-- [Modern React Version →](./food-web-app/README.md) - Single Page Application with REST API
+- [Traditional PHP Version](./food-web-app-php/README.md) - Server-side rendering with form submissions
+- [Modern React Version](./food-web-app/README.md) - Single Page Application with REST API
 
 ## Quick Start Guide
 
@@ -56,7 +56,7 @@ C:\xampp\htdocs\Food-Web-App_IE4727
 - Session-based authentication
 - Full page reloads on navigation
 
-**[📖 Read detailed documentation →](./food-web-app-php/README.md)**
+**[Read detailed documentation →](./food-web-app-php/README.md)**
 
 ---
 
@@ -95,7 +95,7 @@ C:\xampp\htdocs\Food-Web-App_IE4727
 - Context API for state management
 - No page reloads, smooth UX
 
-**[📖 Read detailed documentation →](./food-web-app/README.md)**
+**[Read detailed documentation →](./food-web-app/README.md)**
 
 ---
 
