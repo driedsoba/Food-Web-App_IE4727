@@ -1,4 +1,4 @@
-// API Base URL - Update this to match your backend server
+// API Base URL
 const API_BASE_URL = 'http://localhost/Food-Web-App_IE4727/food-web-app/backend/api';
 
 // Helper function for fetch with credentials
