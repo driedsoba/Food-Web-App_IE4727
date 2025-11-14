@@ -128,9 +128,6 @@ Food-Web-App_IE4727/
 
 ---
 
-
----
-
 ## Features Implemented
 
 - User Authentication (Login/Register)
@@ -147,4 +144,5 @@ Food-Web-App_IE4727/
 
 ## Contributors
 Tan Yin Yu and Liw Jun Le
+
 Developed for IE4727 - Web Application Design Course
