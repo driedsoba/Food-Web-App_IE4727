@@ -6,39 +6,6 @@ A restaurant ordering system built with two implementations: PHP and React.
 - [PHP Version](./food-web-app-php/README.md) - Server-side rendering with form submissions
 - [React Version](./food-web-app/README.md) - Single Page Application with REST API
 
-## Screenshots
-
-### Application Design
-
-**Site Map & Storyboard**
-
-![Site Map](./docs/images/sitemap.png)
-*User navigation flow diagram showing authentication states and page transitions*
-
-![Storyboard](./docs/images/storyboard.png)
-*Detailed storyboard with page layouts and user interactions*
-
-**Live Application**
-
-<table>
-<tr>
-<td width="50%">
-
-**React Version**
-
-![React Homepage](./docs/images/react-homepage.png)
-
-</td>
-<td width="50%">
-
-**Traditional PHP Version**
-
-![PHP Homepage](./docs/images/php-homepage.png)
-
-</td>
-</tr>
-</table>
-
 ## Quick Start Guide
 
 ### Prerequisites
@@ -172,6 +139,41 @@ Food-Web-App_IE4727/
 - Feedback System
 - Catering Packages
 - Email Inquiries (Modern version only)
+
+---
+
+## Screenshots
+
+### Application Design
+
+**Site Map & Storyboard**
+
+![Site Map](./docs/images/sitemap.png)
+*User navigation flow diagram showing authentication states and page transitions*
+
+![Storyboard](./docs/images/storyboard.png)
+*Detailed storyboard with page layouts and user interactions*
+
+**Live Application**
+
+<table>
+<tr>
+<td width="50%">
+
+**React Version**
+
+![React Homepage](./docs/images/react-homepage.png)
+
+</td>
+<td width="50%">
+
+**Traditional PHP Version**
+
+![PHP Homepage](./docs/images/php-homepage.png)
+
+</td>
+</tr>
+</table>
 
 ---
 
