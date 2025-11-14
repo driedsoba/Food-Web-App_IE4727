@@ -1,4 +1,4 @@
-# Traditional PHP Version - LeckerHaus Restaurant
+# PHP Version - LeckerHaus Restaurant
 
 A server-side rendered PHP web application for restaurant food ordering. This version uses traditional form submissions and full page reloads.
 

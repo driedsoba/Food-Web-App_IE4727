@@ -1,4 +1,4 @@
-# Modern React Version - LeckerHaus Restaurant
+# React Version - LeckerHaus Restaurant
 
 A modern Single Page Application (SPA) built with React and Vite. This version provides a seamless user experience with client-side routing and REST API integration.
 
