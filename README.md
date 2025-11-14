@@ -154,6 +154,9 @@ Food-Web-App_IE4727/
 ![Storyboard](./docs/images/storyboard.png)
 *Detailed storyboard with page layouts and user interactions*
 
+![Storyboard](./docs/images/database.png)
+*Database schema and relationships diagram* 
+
 **Live Application**
 
 <table>
