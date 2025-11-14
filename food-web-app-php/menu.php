@@ -142,23 +142,24 @@ include 'includes/header.php';
                             <span class="price">$<?php echo number_format($item['price'], 2); ?></span>
                         </div>
                         
-                        <?php if (isset($_SESSION['user_id'])): ?>
-                            <form method="POST" action="backend/process-add-to-cart.php" class="add-to-cart-form">
-                                <input type="hidden" name="menu_item_id" value="<?php echo $item['id']; ?>">
-                                <input type="hidden" name="quantity" value="1">
-                                <button type="submit" class="btn btn-primary">Add to Cart</button>
-                            </form>
-                        <?php else: ?>
-                            <p class="login-prompt">
-                                <a href="login.php">Login</a> to add items to cart
-                            </p>
-                        <?php endif; ?>
+                        <form method="POST" action="<?php echo isset($_SESSION['user_id']) ? 'backend/process-add-to-cart.php' : 'login.php'; ?>" class="add-to-cart-form" <?php echo !isset($_SESSION['user_id']) ? 'onsubmit="return confirmLogin();"' : ''; ?>>
+                            <input type="hidden" name="menu_item_id" value="<?php echo $item['id']; ?>">
+                            <input type="hidden" name="quantity" value="1">
+                            <button type="submit" class="btn btn-primary">Add to Cart</button>
+                        </form>
                     </div>
                 </div>
             <?php endforeach; ?>
         </div>
     <?php endif; ?>
 </div>
+
+<script>
+// Show confirmation dialog when non-logged-in user tries to add to cart
+function confirmLogin() {
+    return confirm('Please login to add items to cart. Would you like to go to the login page?');
+}
+</script>
 
 <?php
 $conn->close();
