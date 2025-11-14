@@ -1,80 +1,125 @@
-# Food Web App - PHP Version
+# Traditional PHP Version - LeckerHaus Restaurant
 
-A traditional PHP web application for food ordering. This version uses form submissions and page reloads for all interactions.
+A server-side rendered PHP web application for restaurant food ordering. This version uses traditional form submissions and full page reloads.
 
-## ⚠️ Important: File Naming Convention
+## Technology Stack
 
-This folder mirrors the **food-web-app-base-traditional** structure but converts `.html` files to `.php` files:
-
-| Traditional Folder | PHP Folder | Description |
-|-------------------|----------------|-------------|
-| `index.html` | `index.php` | Home page |
-| `menu.html` | `menu.php` | Menu browsing |
-| `cart.html` | `cart.php` | Shopping cart |
-| `login.html` | `login.php` | Login & Register (combined) |
-| `catering.html` | `catering.php` | Catering inquiry |
-| `feedback.html` | `feedback.php` | Customer feedback |
-| `order-confirmation.html` | `order-confirmation.php` | Order success |
-| `order-history.php` | `order-history.php` | Order tracking (same name) |
-
-**Note:** `register.php` does NOT exist separately - registration is handled within `login.php` just like the traditional folder's `login.html`.
+- **Backend**: PHP 7.4+ with MySQLi
+- **Frontend**: HTML5, CSS3, Vanilla JavaScript
+- **Database**: MySQL (via XAMPP)
+- **Session Management**: PHP Sessions
+- **Security**: Prepared statements, bcrypt password hashing, XSS protection
 
 ## Features
 
-- ✅ User authentication (login/register in one page) with PHP sessions
-- ✅ Menu browsing with search and category filters (server-side)
-- ✅ Shopping cart management (form submissions)
-- ✅ Order placement and tracking
-- ✅ Order history viewing
-- ✅ Feedback submission
-- ✅ Catering inquiry form
-- ✅ Session data passed to JavaScript via inline scripts
+- User Authentication (Login/Register)
+- Menu Browsing with Search & Filters (Server-side)
+- Shopping Cart Management (Form-based)
+- Checkout & Order Placement
+- Order Status Tracking
+- Order History
+- Customer Feedback System
+- Catering Package Information
 
-## Key Differences from Traditional Version
+## Project Structure
 
-| Aspect | Traditional (.html) | PHP (.php) |
-|--------|-------------------|----------------|
-| **Data fetching** | Fetch API + JSON | Form submissions + page reloads |
-| **Cart updates** | Async API calls | Form POST + redirect |
-| **Search** | Client-side JS filtering | Server-side PHP query |
-| **Login/Register** | Toggle UI with JS | Same page, different URL params |
-| **Session check** | API endpoint (check-auth.php) | Inline PHP in header |
-| **Error handling** | JSON responses | URL query parameters |
-| **User feedback** | Dynamic DOM updates | Page reload with messages |
+```
+food-web-app-php/
+├── *.php                      # Main page files
+├── backend/                   # Form processing scripts
+│   ├── process-login.php
+│   ├── process-checkout.php
+│   ├── process-add-to-cart.php
+│   └── ...
+├── includes/                  # Reusable components
+│   ├── config.php            # Database configuration
+│   ├── db.php                # Database connection
+│   ├── header.php            # Site header
+│   └── footer.php            # Site footer
+├── css/                       # Stylesheets
+├── js/                        # Client-side validation
+└── database/                  # SQL files
+    ├── schema.sql
+    └── seed_data.sql
+```
 
 ## How It Works
 
-### 1. Session Data Access
-```php
-<!-- Inline session data in header.php -->
-<script>
-window.SESSION_DATA = {
-    isAuthenticated: <?php echo isset($_SESSION['user_id']) ? 'true' : 'false'; ?>,
-    userId: <?php echo isset($_SESSION['user_id']) ? (int)$_SESSION['user_id'] : 'null'; ?>
-};
-</script>
-```
+### Server-Side Rendering
+All pages are rendered on the server with PHP. Data is fetched from MySQL and embedded directly into HTML.
 
-### 2. Form Submissions
-```html
+### Form Submissions
+All interactions use form POST/GET:
+```php
+<!-- Add to Cart Form -->
 <form method="POST" action="backend/process-add-to-cart.php">
-    <input type="hidden" name="menu_item_id" value="123">
+    <input type="hidden" name="menu_item_id" value="<?php echo $item['id']; ?>">
     <button type="submit">Add to Cart</button>
 </form>
 ```
 
-### 3. Login/Register Toggle
+### Session Management
 ```php
-$action = $_GET['action'] ?? 'login';
-// Toggle between login and register on same page
+// Check authentication in includes/config.php
+session_start();
+$isLoggedIn = isset($_SESSION['user_id']);
 ```
 
-## Installation
+### Database Queries
+Uses prepared statements for security:
+```php
+$stmt = $conn->prepare("SELECT * FROM menu_items WHERE category = ?");
+$stmt->bind_param("s", $category);
+$stmt->execute();
+```
 
-1. Import database: `mysql -u root -p < database/schema.sql`
-2. Edit `includes/config.php` with your database credentials
-3. Access: `http://localhost/food-web-app-php/`
+## Installation & Setup
+
+See main README for complete setup instructions: [Main README](../README.md)
+
+**Quick Start:**
+1. Place folder in `C:\xampp\htdocs\Food-Web-App_IE4727\`
+2. Import `database/schema.sql` and `seed_data.sql` into MySQL
+3. Configure database credentials in `includes/config.php` (default: root/no password)
+4. Start Apache and MySQL in XAMPP
+5. Visit: `http://localhost/Food-Web-App_IE4727/food-web-app-php/`
+
+## Key Pages
+
+- `index.php` - Homepage with featured dishes
+- `menu.php` - Browse menu with search/filter
+- `cart.php` - View cart and checkout
+- `login.php` - Login and registration
+- `order-confirmation.php` - Order success page
+- `order-history.php` - View past orders
+- `feedback.php` - Submit and view feedback
+- `catering.php` - Catering packages info
+
+## Configuration
+
+Edit `includes/config.php`:
+```php
+define('DB_HOST', 'localhost');
+define('DB_USER', 'root');
+define('DB_PASS', '');
+define('DB_NAME', 'food_web_app');
+define('SITE_URL', 'http://localhost/Food-Web-App_IE4727/food-web-app-php');
+```
+
+## Security Features
+
+- Password hashing with bcrypt
+- SQL injection prevention via prepared statements
+- XSS protection with `htmlspecialchars()`
+- Session-based authentication
+- Server-side input validation
+
+## Testing
+
+**Test Account** (if seed data imported):
+- Email: `test@example.com`
+- Password: `password123`
 
 ## License
 
-MIT License
+Developed for IE4727 - Web Application Design Course
